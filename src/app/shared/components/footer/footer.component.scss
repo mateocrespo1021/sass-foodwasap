@@ -1,0 +1,115 @@
+.footer {
+   &.dark{
+    background-color: #1f2937;
+    h3{
+      color: white;
+    }
+   }
+  padding: 10px 0;
+  background-color: var(--gray);
+  &__container {
+    display: none;
+
+    h3 {
+      font-size: 20px;
+      color: black;
+    }
+
+    @media (min-width: 768px) {
+      display: block;
+    }
+
+
+  }
+
+  &__categories {
+    display: none;
+
+    @media (min-width: 768px) {
+      display: block;
+    }
+  }
+
+  &__ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    font-size: 16px;
+
+    li{
+      &:hover{
+        cursor: pointer;
+        color: var(--principal);
+        transition: 300ms;
+      }
+    }
+  }
+
+  &__flex{
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  &__icons{
+    display: flex;
+    justify-content: space-between;
+    
+    h4{
+      font-size: 15px;
+    }
+  }
+  
+  &__payment, &__app{
+    display: flex;
+    justify-content: left;
+    gap: 10px;
+    align-items: center;
+    
+  }
+
+  &__app{
+    img{
+      width: 100px !important;
+    }
+  }
+
+
+  &__payment{
+    img{
+      width: 30px ;
+    }
+  }
+
+
+  &__images{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  &__copy{
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+  }
+
+  &__follow{
+    display: flex;
+    gap: 10px;
+  }
+
+  &__icons{
+    display: flex;
+    gap: 10px;
+
+    img{
+      width: 40px;
+      &:hover{
+        transform: scale(1.1);
+        transition: 300ms;
+      }
+    }
+  }
+}

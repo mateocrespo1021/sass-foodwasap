@@ -1,0 +1,42 @@
+<div class="card flex justify-content-center">
+    <p-button (click)="showDialog()" label="Ver" [rounded]="true" />
+    <p-dialog header="Productos" [modal]="true" [(visible)]="visible" [style]="{ width: '50rem' }"
+        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+        <div class="card">
+            <p-table [value]="cart" [tableStyle]="{ 'min-width': '50rem' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Producto</th>
+                        <th>Extras</th>
+                        <th>Total</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-cart>
+                    <tr>
+                        <td> <img *ngIf="cart.product.image" [src]="baseProducts + cart.product.image + '.webp'"
+                                [alt]="cart.product.name" class="shadow-4" style="width: 150px;" /></td>
+                        <td>
+                            <p>{{ cart.product.name }} </p><span *ngIf="cart.variant.id != 0" style="font-size: 16px">
+                                - {{ cart.variant.name }}</span>
+                            <span *ngIf="cart.variant.id == 0">Variante : Ninguna</span>    
+                        </td>
+                        <td>
+                            <p *ngIf="cart.additionals.length">
+                                Adicionales :
+                                <span *ngFor="let additional of cart.additionals">{{
+                                    additional.name + "X" + additional.amount
+                                    }}</span>
+
+                            </p>
+                            <p *ngIf="!cart.additionals.length">Ninguno</p>
+                        </td>
+                        <td>
+                            <p>{{ cart.totalCv * cart.amount + cart.totalAd }}$</p>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </p-dialog>
+</div>

@@ -1,0 +1,50 @@
+<div class="container">
+    <h1>Pedidos</h1>
+    <div class="filter">
+        <h2>Filtrar por : </h2>
+        <div class="options">
+            <p-button (click)="ordersPending()" label="Pendiente" [text]="true" [raised]="true" severity="warning" />
+            <p-button (click)="ordersSuccess()" label="Entregado" [text]="true" [raised]="true" severity="success" />
+            <p-button (click)="ordersAll()" label="Todos" [text]="true" [raised]="true" severity="info" />
+        </div>
+        <app-search (onDebounce)="getSearchItem($event)" [placeholder]="placeholder"></app-search>
+    </div>
+    <div class="card">
+        @if(orders.length){
+        <p-table [value]="orders" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="10">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Cliente</th>
+                    <th>Telefono</th>
+                    <th>Pago</th>
+                    <th>Envio</th>
+                    <th>Productos</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Hora</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-order>
+                <tr>
+                    <td>{{ order.name_client }}</td>
+                    <td>{{ order.tel }}</td>
+                    <td>{{ order.pay }}</td>
+                    <td>{{ order.delivery }}</td>
+                    <td><app-modal-show-products-order [cart]="order.cart"></app-modal-show-products-order></td>
+                    <td>${{order.price_total}}</td>
+                    <td><p-button (click)="changeStatus(order.id)"
+                            [label]="order.status == 0 ? 'Pendiente' : 'Entregado'" [rounded]="true"
+                            [severity]="order.status == 0 ? 'warning' : 'success'" /></td>
+                    <td>{{ order.created_at | appDateformat:'fullDateTime' | titlecase}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+        }
+
+        <div class="message" *ngIf="chargeWhitOutResult">
+            <p-button label="No Hay Resultados" [outlined]="true" severity="secondary" />
+        </div>
+
+
+    </div>
+</div>

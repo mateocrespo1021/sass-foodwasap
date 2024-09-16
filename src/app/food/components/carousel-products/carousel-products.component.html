@@ -1,0 +1,35 @@
+
+    <div class="card">
+        <p-carousel *ngIf="products.length" [value]="products" [numVisible]="4" [numScroll]="3"
+            [responsiveOptions]="responsiveOptions">
+            <ng-template let-product pTemplate="item">
+                <div class="border-1 surface-border border-round m-2 p-3">
+                    <div class="mb-3">
+                        <div class="relative mx-auto">
+                            <app-lazy-image [url]="baseProducts + product.image + '.webp'" [alt]="product.name"></app-lazy-image>
+                            <!-- <app-progressive-image [imageUrl]="baseProducts + product.image + '.webp'" [imageUrlSmall]="baseProducts + product.image + '.webp'"></app-progressive-image> -->
+                            <!-- <img [src]="baseProducts + product.image + '.webp'" [alt]="product.name"
+                                class="w-full border-round" /> -->
+                            <p-tag *ngIf="amountProduct(product.id)" [value]="amountProduct(product.id)" severity="success"
+                                class="absolute" [ngStyle]="{ 'left.px': 5, 'top.px': 5 }" />
+                        </div>
+                    </div>
+                    <div class="mb-3 font-medium">
+                        {{ product.name }}
+                    </div>
+                    <div class="flex justify-content-between align-items-center">
+                        <div class="mt-0 font-semibold text-xl">
+                            {{ "$" + product.price }}
+                            <span class="text-danger" *ngIf="product.discount != 0" style="text-decoration: line-through;">${{product.discount}}</span>
+                        </div>
+                        <span>
+                            <!-- <p-button icon="pi pi-heart" severity="secondary" [outlined]="true" /> -->
+                            <p-button [disabled]="!product.status" [label]="!product.status ? 'No disponible' : ''" (click)="showModal(product)" icon="pi pi-shopping-cart" severity="warning"
+                                styleClass="ml-2" />
+                        </span>
+                    </div>
+                </div>
+            </ng-template>
+        </p-carousel>
+    </div>
+

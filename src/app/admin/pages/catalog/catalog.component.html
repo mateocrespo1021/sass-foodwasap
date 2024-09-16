@@ -1,0 +1,22 @@
+<div class="container">
+  <h2>Administrador de productos</h2>
+  <div class="menu">
+    <app-select-category></app-select-category>
+    <app-search (onDebounce)="getSearchDevounce($event)"></app-search>
+    <app-modal-add-category></app-modal-add-category>
+  </div>
+  <div class="catalog">
+    <div class="category" *ngIf="category().id else elseBlock">
+      <app-toolbar></app-toolbar>
+      <app-products></app-products>
+    </div>
+    <ng-template #elseBlock>
+      <div class="card flex justify-content-center pt-3">
+      <p-button  label=" No hay categorias agregadas." [text]="true" [raised]="true" severity="warning" />
+    </div>
+     </ng-template>
+    <app-loading *ngIf="spinner()"></app-loading>
+  </div>
+</div>
+<p-toast />
+<p-confirmDialog />

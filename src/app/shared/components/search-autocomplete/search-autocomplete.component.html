@@ -1,0 +1,11 @@
+<div class="card flex justify-content-center pt-1">
+    <p-autoComplete [(ngModel)]="selectedItem" [suggestions]="filteredProducts" (completeMethod)="search($event)"
+        field="name" placeholder="Buscar productos">
+        <ng-template let-product pTemplate="item">
+            <div class="flex align-items-center gap-2" (click)="showModal(product.id)">
+                <img [src]="baseProducts + product.image + '.webp'" style="width: 20px" />
+                <div>{{ product.name }}</div>
+            </div>
+        </ng-template>
+    </p-autoComplete>
+</div>

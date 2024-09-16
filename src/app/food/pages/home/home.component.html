@@ -1,0 +1,45 @@
+<section class="welcome container">
+  <div class="download" [ngClass]="darkMode ? 'dark' : ''">
+    <div class="download__info">
+      <i class="fa-solid fa-house"></i>
+      <div class="download__help">
+        <h3>Bienvenido a Food</h3>
+        <p>
+          ¡Despierta tus sentidos con nuestros sabores irresistibles!
+          <!-- <span> $50 </span>
+          off on your first order. -->
+        </p>
+      </div>
+    </div>
+    <button [routerLink]="'/store/product-explorer/'+businessName">Explora Nuestro Menú</button>
+  </div>
+  <!-- <div class="welcome__promotions">
+    <app-promotion [color]="darkMode ? secondColor : color"></app-promotion>
+    <app-promotion [color]="darkMode ? secondColor : color"></app-promotion>
+  </div> -->
+</section>
+
+<section class="gallery container">
+ <app-gallery></app-gallery>
+</section>
+
+<section class="recent-products container">
+  <div class="more">
+    <h2>Productos Recientes</h2>
+    <a [routerLink]="'/store/product-explorer/' + businessName">Ver más</a>
+  </div>
+  <app-recent-products></app-recent-products>
+</section>
+
+<section class="popular-categories container">
+  <h2>Categorias Populares</h2>
+
+  <app-popular-categories></app-popular-categories>
+</section>
+
+<main class="main container">
+  <app-product-demonstration></app-product-demonstration>
+</main>
+
+<app-modal-cart-product *ngIf="modal()"></app-modal-cart-product>
+<p-toast />

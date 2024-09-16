@@ -1,0 +1,45 @@
+<div class="sliders-content container">
+    <div class="sliders-options">
+        <app-search (onDebounce)="getSearchDevounce($event)" [placeholder]="'Sliders'"></app-search>
+        <app-modal-add-slider class="app-modal-add-slider"></app-modal-add-slider>
+    </div>
+    <div class="card">
+        <p-table [value]="sliders()" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }"
+            [rowsPerPageOptions]="[5, 10, 20]">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 25%">Titulo</th>
+                    <th style="width: 25%">Imagen</th>
+                    <th style="width: 25%">Link</th>
+                    <th style="width: 25%">Estado</th>
+                    <th style="width: 25%"></th>
+                    <th style="width: 25%"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-slider>
+                <tr>
+                    <td>{{ slider.title }}</td>
+                    <td>
+                        <img [src]="baseSliders + slider.image + '.webp'" [alt]="slider.title" class="shadow-4" />
+                    </td>
+                   
+                    <td>{{ slider.link ?? 'Ninguno' }}</td>
+                    <td>
+                        <p-tag [value]="slider.state == 1 ? 'Activo' : 'Inactivo'"
+                            [severity]="slider.state == 1 ? 'success' : 'danger'" />
+                    </td>
+                    <td>
+                        <app-modal-edit-slider [slider]="slider"></app-modal-edit-slider>
+                    </td>
+                    <td>
+                        <p-button (click)="deleteSlider($event,slider.id)" label="Eliminar" [rounded]="true" severity="danger" />
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<!-- (click)="confirmDelete($event, product.id)" -->
+
+<p-toast />
+<p-confirmDialog />

@@ -1,0 +1,24 @@
+h2{
+  text-align: center;
+  padding: 20px;
+}
+.category{
+  display: block;
+  font-size: 3rem;
+  color: black;
+}
+
+.menu{
+  display: flex;
+  flex-direction: column;
+  
+  @media (min-width:768px){
+    flex-direction: row;
+  }
+  gap: 10px;
+  margin-bottom: 20px;
+
+   > *{
+    flex: 2;
+  }
+}

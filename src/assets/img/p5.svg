@@ -1,0 +1,46 @@
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 30" width="40px">
+      <defs>
+        <filter
+          id="svg-mastercard-a"
+          width="104.4%"
+          height="105.3%"
+          x="-2.2%"
+          y="-2.7%"
+          filterUnits="objectBoundingBox">
+          <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1" />
+          <feGaussianBlur
+            in="shadowOffsetOuter1"
+            result="shadowBlurOuter1"
+            stdDeviation="2"
+          />
+          <feColorMatrix
+            in="shadowBlurOuter1"
+            result="shadowMatrixOuter1"
+            values="0 0 0 0 0.86131382 0 0 0 0 0.870479167 0 0 0 0 0.900754929 0 0 0 0.4 0"
+          />
+          <feMerge>
+            <feMergeNode in="shadowMatrixOuter1" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <g
+        fill="none"
+        fillRule="evenodd"
+        filter="url(#svg-mastercard-a)"
+        transform="translate(-37 -349)">
+        <path
+          fill="#F79410"
+          d="M80.523 370.926v-.477h-.125l-.143.328-.144-.328h-.124v.477h.088v-.36l.135.311h.091l.135-.311v.36h.087zm-.79 0v-.395h.16v-.081h-.407v.08h.16v.396h.088z"
+        />
+        <path fill="#FF5F00" d="M66.385 372.975H55.621V353.63h10.764z" />
+        <path
+          fill="#EB001B"
+          d="M56.303 363.303c0-3.924 1.838-7.42 4.699-9.673a12.25 12.25 0 00-7.603-2.63c-6.794 0-12.301 5.508-12.301 12.303 0 6.795 5.507 12.303 12.301 12.303a12.252 12.252 0 007.603-2.63 12.283 12.283 0 01-4.699-9.673"
+        />
+        <path
+          fill="#F79410"
+          d="M80.907 363.303c0 6.795-5.507 12.303-12.301 12.303a12.256 12.256 0 01-7.604-2.63 12.28 12.28 0 004.7-9.673 12.28 12.28 0 00-4.7-9.673 12.255 12.255 0 017.604-2.63c6.794 0 12.301 5.508 12.301 12.303"
+        />
+      </g>
+    </svg>

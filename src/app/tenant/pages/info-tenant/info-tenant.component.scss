@@ -1,0 +1,50 @@
+h1{
+  text-align: center;
+}
+
+.info-contain{
+  display: flex;
+  margin: 0;
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.info-form{
+  flex: 1;
+  
+}
+
+.aside-info{
+  flex: 1;
+}
+
+@media (max-width:768px) {
+  .aside-info{
+    display: none;
+  }
+}
+
+
+.input-phone{
+  width: 100%;
+  border-radius: .8rem;
+  padding: .8rem;
+  border: 1px solid #ccc;
+}
+
+
+.field{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field-check{
+  display: flex;
+  gap: 1rem;
+}

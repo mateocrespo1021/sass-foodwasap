@@ -1,0 +1,13 @@
+<div class="card flex justify-content-center">
+  <p-toast />
+  <p-fileUpload
+    #fileUpload
+    mode="basic"
+    chooseLabel="Seleccione"
+    chooseIcon="pi pi-upload"
+    name="demo[]"
+    url="https://www.primefaces.org/cdn/api/upload.php"
+    accept="image/*"
+    (onSelect)="onUpload($event)"
+  />
+</div>

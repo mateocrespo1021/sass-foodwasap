@@ -1,0 +1,82 @@
+<header class="header">
+  <div class="header__content">
+    <div [routerLink]="'/store/'+businessName" class="header__logo" [ngClass]="darkMode ? 'dark' : ''">
+      <i class="pi pi-shop"></i>
+      <span *ngIf="is768px">Food</span>
+    </div>
+    <div class="header__flex">
+      <div class="header__direction">
+        <i class="pi pi-map-marker"></i>
+        <p>
+          <strong>Entrega en 16 minutes</strong>
+        </p>
+      </div>
+      <app-search (onDebounce)="getSearchItem($event)" *ngIf="is768px && urlSegments.length > 2"></app-search>
+      <app-search-autocomplete *ngIf="is768px && urlSegments.length==2"></app-search-autocomplete>
+      <!-- <div class="header__login">
+        <i class="fa-solid fa-circle-user"></i>
+        <p *ngIf="is768px">Hola, <span> Trabjas aqui? </span></p>
+      </div> -->
+    </div>
+    <app-darkmode></app-darkmode>
+    <div class="header__logo" [ngClass]="darkMode ? 'dark' : ''" (click)="sidebarVisible = true">
+      <i class="pi pi-shopping-cart"></i>
+      <p>{{ totalItemsCart }} Items <span>${{subTotalSignal()}}</span></p>
+    </div>
+  </div>
+  <app-search (onDebounce)="getSearchItem($event)" *ngIf="!is768px && urlSegments.length > 2"></app-search>
+  <app-search-autocomplete *ngIf="!is768px && urlSegments.length==2"></app-search-autocomplete>
+</header>
+<p-sidebar [(visible)]="sidebarVisible" styleClass="w-25rem" position="right">
+  <ng-template pTemplate="header">
+    <span class="font-semibold text-xl">Tu canasta</span>
+  </ng-template>
+  @if(sendMessage){
+  <app-details-order (hiddenDetails)="getEmitDetails($event)"></app-details-order>
+  }@else{
+  <div class="content-sidebar">
+    <div class="carts">
+      <div class="cart-item" *ngFor="let cartItem of currentCart()">
+        <div class="cart-info">
+          <img *ngIf="cartItem.product.image" [src]="baseProducts + cartItem.product.image + '.webp'"
+            [alt]="cartItem.product.name" class="shadow-4" />
+          <div class="cart-p">
+            <p>
+              {{ cartItem.product.name }}
+              <span *ngIf="cartItem.variant.id != 0" style="font-size: 16px">
+                - {{ cartItem.variant.name }}</span>
+            </p>
+            <p *ngIf="cartItem.additionals.length">
+              Adicionales :
+              <span *ngFor="let additional of cartItem.additionals">{{
+                additional.name + "X" + additional.amount
+                }}</span>
+            </p>
+            <p>{{ cartItem.totalCv * cartItem.amount + cartItem.totalAd }}$</p>
+          </div>
+        </div>
+        <div class="cart-edit">
+          <i (click)="deleteCartItem(cartItem.id)" class="pi pi-trash" style="font-size: 1.5rem; color: red"></i>
+          <div class="amount">
+            <i (click)="min(cartItem)" class="pi pi-minus" style="font-size: 1rem; color: var(--principal)"></i>
+            <p>{{ cartItem.amount }}</p>
+            <i (click)="sum(cartItem)" class="pi pi-plus" style="font-size: 1rem; color: var(--principal)"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="total">
+      @if(!currentCart().length){
+        <p-button label="Aún no tienes productos en tu canasta" [text]="true" [raised]="true" severity="warning" />
+      }@else{
+        <div class="card flex justify-content-between">
+        <p-button (click)="sendMessageW()" [label]="'Total $' + subTotalSignal()" icon="pi pi-whatsapp" size="large"
+        [raised]="true" severity="success" />
+        <p-button (click)="cleanCart()" label="Limpiar Canasta" severity="warning" size="large"/></div>
+      }
+     
+    </div>
+  </div>
+  }
+</p-sidebar>

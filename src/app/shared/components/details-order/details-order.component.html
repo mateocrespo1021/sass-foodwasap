@@ -1,0 +1,43 @@
+<form action="" class="form" [formGroup]="formDetails" (ngSubmit)="sendMessage()">
+    <div class="direction">
+        <p-button (click)="getPosition()" label="Agregar Ubicacion Actual" [rounded]="true" severity="warning"
+            icon="pi pi-plus" />
+        <p-button [label]="direction()" [text]="true" />
+    </div>
+
+    <div class="field">
+        <input id="name" type="text" pInputText formControlName="name" placeholder="Su Nombre" />
+    </div>
+    <div class="field">
+        <p-inputMask 
+        mask="(999) 999-9999" 
+        formControlName="tel" 
+        placeholder="Su Telefono" ariaLabelledBy="phone" size="34"/>
+    </div>
+    <div class="field">
+        <label for="delevery">Opciones de Entrega</label>
+        <div *ngFor="let delevery of typesDelevery" class="field-checkbox">
+            <p-radioButton [inputId]="delevery.key" [value]="delevery" formControlName="delivery" />
+            <label [for]="delevery.key" class="ml-2">
+                {{ delevery.name }}
+            </label>
+        </div>
+    </div>
+    <div class="field">
+        <label for="delevery">Formas de Pago</label>
+        <div *ngFor="let pay of typesPay" class="field-checkbox">
+            <p-radioButton [inputId]="pay.key" [value]="pay" formControlName="pay" />
+            <label [for]="pay.key" class="ml-2">
+                {{ pay.name }}
+            </label>
+        </div>
+    </div>
+    <div class="field">
+        <textarea id="note" rows="5" cols="30" pInputTextarea formControlName="note"
+            placeholder="Nota (Opcional)"></textarea>
+    </div>
+    <div class="card flex justify-content-between">
+        <p-button type="submit" severity="success" label="Enviar" icon="pi pi-send" size="large" />
+        <p-button (click)="emitEvent()" severity="Primary" label="Regresar" icon="pi pi-angle-double-left " size="large" />
+    </div>
+</form>

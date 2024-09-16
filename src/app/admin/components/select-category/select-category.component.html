@@ -1,0 +1,26 @@
+<div class="card flex justify-content-center">
+    <p-dropdown 
+        [options]="currentCategoriesSelected()"
+        [(ngModel)]="selectedCategory"
+        optionLabel="name"
+        (onChange)="onChangeCategory()"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        placeholder="Seleccione la Categoria">
+            <ng-template pTemplate="selectedItem" let-selectedOption>
+                <div class="flex align-items-center gap-2">
+                    <img 
+                        src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
+                       
+                        style="width: 18px" />
+                    <div>{{ selectedOption.name }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-category pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    <div>{{ category.name }}</div>
+                </div>
+            </ng-template>
+    </p-dropdown>
+</div>

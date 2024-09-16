@@ -1,0 +1,15 @@
+.sliders-content{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sliders-options{
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+}
+
+.app-modal-add-slider{
+   align-self: flex-end;
+}

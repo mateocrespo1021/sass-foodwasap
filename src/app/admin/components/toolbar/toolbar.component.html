@@ -1,0 +1,19 @@
+ <p-toolbar>
+    <div class="p-toolbar-group-start text-orange-500 text-xl">
+      {{ category().name }}
+      <!-- <img [src]="baseCategories + category.image + '.webp'" [alt]="category.name"> -->
+    </div>
+    <div class="p-toolbar-group-end">
+      <div class="card flex gap-2">
+        <app-modal-product></app-modal-product>
+        <app-modal-edit-category></app-modal-edit-category>
+        <p-button
+          severity="danger"
+          label="Eliminar Categoria"
+          icon="pi pi-times"
+          (click) = "confirmDelete($event)"
+        />
+      </div>
+    </div>
+  </p-toolbar>
+

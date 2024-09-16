@@ -1,0 +1,33 @@
+
+.register__container{
+  margin: 0 auto !important;
+  padding: 70px 50px !important;
+  flex: 1;
+  height: 100vh !important;
+  overflow-y: hidden;
+}
+
+.full-content{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+
+@media (min-width:768px) {
+    .full-content{
+      flex-direction: row;
+    }
+
+    .aside-register{
+      flex: 1;
+      
+    }
+}
+
+@media (max-width:768px) {
+  .full-content .aside-register{
+   display: none; 
+  }
+}

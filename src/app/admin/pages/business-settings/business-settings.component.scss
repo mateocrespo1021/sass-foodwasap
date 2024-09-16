@@ -1,0 +1,28 @@
+.form{
+  display: flex;
+  flex-direction: column;
+  gap: 10x;
+}
+
+
+.field{
+display: flex;
+flex-direction: column;
+justify-content: left;
+gap: 5px;
+
+label{
+  font-weight: bold;
+}
+}
+
+.input-phone{
+  width: 100%;
+  border-radius: 8px;
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+.app-file{
+  display: flex;
+}

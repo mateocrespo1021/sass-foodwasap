@@ -1,0 +1,8 @@
+<div class="categories">
+  <div [routerLink]="'/store/product-explorer/'+businessName" class="category" *ngFor="let category of categories">
+    <!-- <img *ngIf="category" [src]="baseCategories + category.image + '.webp'" [alt]="category.name">   -->
+    <!-- <app-progressive-image *ngIf="category" [imageUrl]="baseCategories + category.image + '.webp'" [imageUrlSmall]="baseCategories + category.image + '.webp'"></app-progressive-image> -->
+     <app-lazy-image *ngIf="category" [url]="baseCategories + category.image + '.webp'"></app-lazy-image>
+   <h4>{{category.name}}</h4>
+  </div>
+</div>

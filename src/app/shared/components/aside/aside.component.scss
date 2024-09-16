@@ -1,0 +1,9 @@
+.aside{
+  z-index: 10000 !important;
+}
+
+.btn-sticky{
+  position: fixed;
+  left: 20px;
+  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+}

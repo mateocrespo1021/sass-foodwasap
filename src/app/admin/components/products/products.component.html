@@ -1,0 +1,43 @@
+<div class="card">
+    <p-table [value]="products()" [lazy]="true" [loading]="loading()" [tableStyle]="{'min-width': '60rem'}"
+        [paginator]="true" [rows]="5">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                Products
+                <p-button icon="pi pi-refresh" />
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Nombre</th>
+                <th>Imagen</th>
+                <th>Precio</th>
+                <th>Categoria</th>
+                <th>Estado</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{product.name}}</td>
+                <td><img [src]="baseProducts + product.image + '.webp'" [alt]="product.name" class="shadow-4" /></td>
+                <td>{{product.price | currency:'USD'}}</td>
+                <td>{{getNameCategory(product.id_category)}}</td>
+                <td><p-tag [value]="product.status == 1? 'Activo' : 'Inactivo'"
+                        [severity]="getSeverity(product.status)" /></td>
+                <td><p-button [routerLink]="['/admin/product-management',product.id]"
+                        routerLinkActive="router-link-active" label="Editar" [rounded]="true" severity="help" /></td>
+                <td><p-button (click)="confirmDelete($event , product.id)" label="Eliminar" [rounded]="true"
+                        severity="danger" /></td>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                Tiene un total de {{products() ? products().length : 0 }} {{products().length != 1 ? 'productos' :
+                'producto'}}.
+            </div>
+        </ng-template>
+    </p-table>
+</div>

@@ -1,0 +1,24 @@
+<div class="management container">
+  <!-- EDIT PRODUCT -->
+  <app-edit-product [id]="id"></app-edit-product>
+
+  <div class="">
+    <div class="option-variants">
+      <div class="menu">
+        <h3>Selecciona</h3>
+        <app-modal-variants [idProduct]="id"></app-modal-variants>
+      </div>
+      <app-variants [id_product]="id"></app-variants>
+    </div>
+    <div class="option-additionals">
+      <div class="menu">
+        <h3>Selecciona</h3>
+        <app-modal-additionals [idProduct]="id"></app-modal-additionals>
+      </div>
+      <app-additionals [id_product]="id"></app-additionals>
+    </div>
+  </div>
+</div>
+
+<p-toast />
+<p-confirmDialog />

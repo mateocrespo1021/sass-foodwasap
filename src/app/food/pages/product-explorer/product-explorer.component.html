@@ -1,0 +1,17 @@
+<div class="explorer container">
+    @defer(when loadingProducts){
+    <div class="menu-categories">
+        <div [ngClass]="{ active: selectedIndex === i, dark: darkMode }" (click)="clickCategory(category, i)"
+            class="category" *ngFor="let category of categories; let i = index">
+            <app-lazy-image class="category-img" *ngIf="category" [url]="baseCategories + category.image + '.webp'" [alt]="category.name" ></app-lazy-image> 
+            <!-- <img [src]="baseCategories + category.image + '.webp'" [alt]="category.name" /> -->
+            <p>{{ category.name }}</p>
+        </div>
+    </div>
+    <app-products-category class="category-products"></app-products-category>
+    }@placeholder{
+    <app-skeleton-dataview></app-skeleton-dataview>
+    }
+</div>
+<app-modal-cart-product *ngIf="modal()"></app-modal-cart-product>
+<p-toast />

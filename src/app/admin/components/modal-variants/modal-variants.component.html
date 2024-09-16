@@ -1,0 +1,21 @@
+<div class="card flex justify-content-center">
+    <p-button (click)="showDialog()" [label]="idVariant ? 'Editar' : 'Agregar Variante'" [severity]="idVariant ? 'help' : 'warning'" [rounded]="true"/>
+    <p-dialog [header]="idVariant ? 'Editar Variante' : 'Agregar Variante'" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+        <span class="p-text-secondary block mb-5">{{idVariant ? 'Editar Variante' : 'Agregar Variante'}}.</span>
+        <form action="" [formGroup]="formVariant" (ngSubmit)="saveVariant()">
+        <div class="flex align-items-center gap-3 mb-5">
+            <label for="name-variant" class="font-semibold w-6rem">Nombre</label>
+            <input pInputText id="name-variant" class="flex-auto" autocomplete="off" formControlName="name"/>
+        </div>
+        <div class="flex align-items-center gap-3 mb-5">
+            <label for="price-variant" class="font-semibold w-6rem">Precio</label>
+            <p-inputNumber inputId="price-variant" mode="decimal" formControlName="price" [minFractionDigits]="2"
+            [maxFractionDigits]="5" class="flex-auto" formControlName="price" />
+        </div>
+        <div class="flex justify-content-end gap-2">
+            <p-button label="Cancelar" severity="secondary" (click)="visible = false" />
+            <p-button label="Guardar" type="submit"/>
+        </div>
+    </form>
+    </p-dialog>
+</div>

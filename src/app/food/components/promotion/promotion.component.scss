@@ -1,0 +1,37 @@
+.promotion{
+   border-radius: 10px;
+   background-color: var(--gray);
+   font-size: 15px;
+   padding: 10px;
+   text-align: left;
+   width: 100%;
+   &.dark{
+    background-color: #1f2937;
+    color: white;
+
+    span{
+      color: var(--tertiary);
+    }
+   }
+
+   @media (min-width: 768px){
+    min-width: 450px;
+   }
+  span{
+    font-weight: bold;
+    color: black;
+  }
+
+  button{
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 10px;
+
+    &:hover{
+      transform: scale(1.1);
+      transition: 300ms;
+    }
+  }
+}

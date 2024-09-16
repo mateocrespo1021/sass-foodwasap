@@ -1,0 +1,59 @@
+h3{
+  text-align: left;
+  font-weight: bold;
+}
+
+p{
+  text-align: left;
+}
+
+.options{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  div{
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    gap: 10px;
+  }
+}
+
+.amount{
+  display: flex;
+  gap: 10px;
+   align-items: center;
+  p{
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
+
+.content-dialog{
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width:768px){
+   flex-direction: row;
+   gap: 20px;
+  }
+
+  .dialog-img{
+  flex-basis: 40%;
+  }
+
+  .dialog-options{
+   flex-basis: 60%;
+  }
+}
+
+.dialog-summary{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ gap: 20px;
+ @media (min-width:768px){
+  justify-content: flex-end;
+ }
+}

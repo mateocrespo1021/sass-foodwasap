@@ -1,0 +1,48 @@
+<div class="info-contain">
+    <div class="info-form">
+      <h1>Ingrese su Negocio</h1>  
+    <form [formGroup]="formInfo" class="form" (ngSubmit)="saveTenant()">
+        <div class="field">
+            <label for="name">Nombre de su negocio</label>
+            <input #txtInput id="name" type="text" pInputText formControlName="name" (blur)="onKeyPress(txtInput.value)"/>
+            <span *ngIf="isValidField('name')" class="form-text text-danger">
+                <!-- Debe de ser de 3 letras -->
+                {{getFieldError('name')}}
+            </span>
+            <span *ngIf="repeat" class="form-text text-danger">
+                <!-- Debe de ser de 3 letras -->
+                El nombre del negocio ya está ocupado.
+            </span>
+            
+        </div>
+        <div class="field">
+            <label for="phone">Número Telefonico (Seleccione su país)</label>
+            <input #phoneInput class="input-phone" type="text" id="phone" formControlName="phone">
+            <span *ngIf="isValidField('phone')" class="form-text text-danger">
+                <!-- Debe de ser de 3 letras -->
+                {{getFieldError('phone')}}
+            </span>
+            <span *ngIf="isValidField('country')" class="form-text text-danger">
+                <!-- Debe de ser de 3 letras -->
+                {{getFieldError('country')}}
+            </span>
+        </div>
+        <div class="field-check">
+            <p-checkbox 
+            formControlName="terms" 
+            binary="true"
+            inputId="ny" />
+        <label for="ny">Acepto los Términos & condiciones y Política de privacidad.</label>
+        
+        </div>
+        <span *ngIf="isValidField('terms')" class="form-text text-danger">
+            <!-- Debe de ser de 3 letras -->
+            {{getFieldError('terms')}}
+        </span>
+        <p-button type="submit" class="mt-3" icon="pi pi-check" label="Aceptar y Continuar" severity="success" size="large"/>
+    </form>
+</div>
+    <app-aside-info class="aside-info"></app-aside-info>
+</div>
+
+<p-toast/>

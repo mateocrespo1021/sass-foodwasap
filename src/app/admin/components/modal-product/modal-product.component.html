@@ -1,0 +1,29 @@
+<div class="card flex justify-content-center">
+  <p-button (click)="showDialog()" label="Agregar producto" icon="pi pi-folder-plus" severity="warning"/>
+  <p-dialog header="" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-5">Agregar Producto.</span>
+    <form action="" [formGroup]="formProduct" (ngSubmit)="saveProduct()">
+      <div class="flex align-items-center gap-3 mb-3">
+        <label for="name" class="font-semibold w-6rem">Nombre</label>
+        <input formControlName="name" pInputText id="name" class="flex-auto" autocomplete="off" />
+      </div>
+      <div class="flex align-items-center gap-3 mb-5">
+        <label for="description" class="font-semibold w-6rem">Descripción</label>
+        <textarea formControlName="description" id="description" rows="5" cols="30" pInputTextarea></textarea>
+      </div>
+      <div class="flex align-items-center gap-3 mb-3">
+        <label for="price" class="font-semibold w-6rem">Precio</label>
+        <p-inputNumber inputId="price" mode="decimal" formControlName="price" [minFractionDigits]="2"
+          [maxFractionDigits]="5" />
+      </div>
+      <div class="flex align-items-center gap-3 mb-5">
+        <label for="image" class="font-semibold w-6rem">Imagen</label>
+        <app-file (fileUploaded)="handleFileUploaded($event)"></app-file>
+      </div>
+      <div class="flex justify-content-end gap-2">
+        <p-button label="Cancelar" severity="secondary" (click)="visible = false" />
+        <p-button label="Guardar" type="submit" />
+      </div>
+    </form>
+  </p-dialog>
+</div>

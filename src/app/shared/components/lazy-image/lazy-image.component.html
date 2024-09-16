@@ -1,0 +1,20 @@
+<div class="flex justify-content-center">
+  <img
+    [ngStyle]="{ display: hasLoaded ? '' : 'none' }"
+    (load)="onLoad()"
+    [src]="url"
+    class="w-full animate__animated animate__fadeIn"
+    [alt]="alt"
+    [ngClass]="{'slider' : slider}"
+  />
+  <img
+    *ngIf="!hasLoaded"
+    src="assets/img/loader.svg"
+    height="35"
+    width="35"
+    class="mt-3"
+    alt=""
+    loading="lazy"
+    [ngClass]="{'slider' : slider}"
+  />
+</div>

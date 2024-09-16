@@ -1,0 +1,17 @@
+.search{
+  width: 100%;
+}
+
+.search__input{
+  width: 100%;
+  font-size: 17px;
+  border-radius: 0%;
+  padding: 10px;
+}
+
+
+@media (min-width: 768px) {
+  .search__input{
+    border-radius: 1rem;
+  }
+}

@@ -1,0 +1,30 @@
+h1{
+  text-align: center;
+  margin: 0;
+}
+
+.filter{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 10px;
+  h2{
+    text-align: center;
+  }
+
+  .options{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+}
+
+.message{
+  width: 100%;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+
+}

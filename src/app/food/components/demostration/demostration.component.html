@@ -1,0 +1,18 @@
+@defer(when loadingProducts){
+<div class="more">
+  <h2>{{ category.name }}</h2>
+  <a [routerLink]="'/store/product-explorer/' + businessName">Ver más</a>
+</div>
+<app-carousel-products [products]="products"></app-carousel-products>
+}@placeholder{
+<div class="card">
+  <div class="product-grid" [ngClass]="darkMode ? 'dark' : ''">
+    <div
+      *ngFor="let skeleton of getSkeletonArray()"
+      class="product-item border-1 surface-border border-round m-2 p-3"
+    >
+      <app-loading-skeleton class="app-skeleton"></app-loading-skeleton>
+    </div>
+  </div>
+</div>
+}

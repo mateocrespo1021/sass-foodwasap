@@ -1,0 +1,65 @@
+<div class="card flex justify-content-center">
+    <p-dialog [header]="currentProduct().name" [modal]="true" [(visible)]="visible" [style]="{ width: '70rem' }"
+        [maximizable]="is768px" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+        <div class="content-dialog">
+            <div class="dialog-img">
+                <img [src]="baseProducts + currentProduct().image + '.webp'" [alt]="currentProduct().name"
+                    width="auto" />
+            </div>
+            <div class="dialog-options">
+                <h3>$ {{ currentProduct().price }}</h3>
+                <p>
+                    {{ currentProduct().description }}
+                </p>
+                <div class="w-full">
+                    <p-accordion [activeIndex]="0">
+                        <p-accordionTab header="Tipo">
+                            <div class="flex align-items-center">
+                                <p-radioButton class="mb-2" [inputId]="'none'" name="variant" [value]="null"
+                                    [(ngModel)]="selectedVariant" (click)="changeVariants()" />
+                                <label [for]="'none'" class="ml-2"> Normal </label>
+                            </div>
+                            <div *ngFor="let variant of variants" class="flex align-items-center">
+                                <p-radioButton class="mb-2" [inputId]="variant.id.toString()" name="variant"
+                                    [value]="variant" [(ngModel)]="selectedVariant" (click)="changeVariants()" />
+                                <label [for]="variant.id.toString()" class="ml-2">
+                                    {{ variant.name + " + $" + variant.price }}
+                                </label>
+                            </div>
+                        </p-accordionTab>
+                        <p-accordionTab header="Extras">
+                            <div *ngFor="let additional of additionals"
+                                class="flex align-items-center justify-content-between">
+                                <p class="mb-2">
+                                    {{ additional.name + " + " + additional.price }}
+                                </p>
+                                <!-- <p-checkbox class="mb-2" (onChange)="changeAdditionals(additional)"
+                                    [label]="additional.name + ' + $' + additional.price" [name]="additional.name"
+                                    [value]="additional.id" /> -->
+                                <app-amount-additional (additionalEmit)="amountAdditional($event)"
+                                    [additional]="additional" class="mb-2"></app-amount-additional>
+                            </div>
+                        </p-accordionTab>
+                    </p-accordion>
+                </div>
+            </div>
+        </div>
+        <div class="dialog-summary">
+            <div class="summary">
+                <div class="options">
+                    <div>
+                        <div class="amount">
+                            <i (click)="min()" class="pi pi-minus" style="font-size: 1rem; color: var(--principal)"></i>
+                            <p class="flex flex-column justify-content-center align-items-center">
+                                <span>Cantidad</span>{{ valueAmount }}
+                            </p>
+                            <i (click)="sum()" class="pi pi-plus" style="font-size: 1rem; color: var(--principal)"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p-button [disabled]="!currentProduct().status" [label]="!currentProduct().status ? 'No disponible' :  'Agregar al Carrito $ ' +
+            totalCost" (click)="addCart()"  severity="success" size="large" />
+        </div>
+    </p-dialog>
+</div>

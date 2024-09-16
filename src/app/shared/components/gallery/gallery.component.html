@@ -1,0 +1,31 @@
+<div class="card">
+  <ng-container *ngIf="loading; else galleryContent">
+    <div [ngClass]="{'dark':darkMode}" class="skeleton" style="height: 300px;"></div>
+    <!-- Ajusta el estilo de la altura según sea necesario -->
+  </ng-container>
+
+  <ng-template #galleryContent>
+    <p-galleria
+      [value]="sliders"
+      [autoPlay]="true"
+      [circular]="true"
+      [showItemNavigators]="false"
+      [showThumbnails]="false"
+      [showIndicators]="true"
+      [responsiveOptions]="responsiveOptions"
+      [containerStyle]="{ width: '100%', height: '100%' }"
+    >
+    <ng-template pTemplate="item" let-item>
+      <img
+        [src]="baseSliders + item.image + '.webp'"
+        alt="{{ item.title }}"
+        (load)="onImageLoad($event)"
+        [ngClass]="{'loaded': imageLoaded}" 
+        class="image"
+        loading="lazy"
+      />
+    </ng-template>
+    
+    </p-galleria>
+  </ng-template>
+</div>
