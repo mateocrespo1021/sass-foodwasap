@@ -21,19 +21,33 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { Me, TenantMe, UserMe } from '../../../auth/interfaces/me.interface';
 import { ValidatorService } from '../../../shared/services/validator.service';
 import { FileComponent } from '../../components/file/file.component';
+import { ButtonModule } from 'primeng/button';
+import { SocialNetworks, Tenant } from '../../interfaces/tenant.interface';
+import { environments } from '../../../../environments/environments';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 declare var intlTelInput: any;
 @Component({
   selector: 'app-business-settings',
   standalone: true,
-  imports: [CommonModule, InputTextModule, ReactiveFormsModule,FileComponent],
+  imports: [
+    CommonModule,
+    InputTextModule,
+    ReactiveFormsModule,
+    FileComponent,
+    ButtonModule,
+    ToastModule
+  ],
   templateUrl: './business-settings.component.html',
   styleUrl: './business-settings.component.scss',
 })
 export class BusinessSettingsComponent implements OnInit, AfterViewInit {
+  public baseLogo = environments.baseLogos;
   private tenantService = inject(TenantService);
   private authService = inject(AuthService);
   private validatorService = inject(ValidatorService);
+  private messageService = inject(MessageService);
   private fb = inject(FormBuilder);
   tenant!: TenantMe;
   user!: UserMe;
@@ -47,14 +61,22 @@ export class BusinessSettingsComponent implements OnInit, AfterViewInit {
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
+
   ngOnInit(): void {
     this.formSettings = this.fb.group({
       business_name: ['', [Validators.required, Validators.minLength(3)]],
+      address: ['', [Validators.minLength(3)]],
+      image: [''],
+      country: ['', [Validators.required]],
+      facebook: ['', Validators.minLength(3)],
+      instagram: ['', Validators.minLength(3)],
+      tiktok: ['', Validators.minLength(3)],
+      twitter: ['', Validators.minLength(3)],
       phone: [
         '',
         [Validators.required, Validators.pattern(/^\+?[1-9]\d{6,14}$/)],
       ],
-      noRepeat: [false, [Validators.requiredTrue]],
+      noRepeat: [true, [Validators.requiredTrue]],
     });
 
     //Obtenemos el user autenticado y el tenant
@@ -62,12 +84,76 @@ export class BusinessSettingsComponent implements OnInit, AfterViewInit {
       if (me.user) {
         this.tenant = me.user.tenant;
         this.user = me.user;
+        let socialNetworks = {} as SocialNetworks;
+        // Verificar si social_networks es un string y no undefined
+        if (typeof this.tenant.social_networks === 'string') {
+          try {
+            socialNetworks = JSON.parse(this.tenant.social_networks);
+          } catch (error) {
+            console.error('Error parsing social_networks:', error);
+          }
+        } else if (this.tenant.social_networks) {
+          // Si ya es un objeto, lo usamos directamente
+          socialNetworks = this.tenant.social_networks;
+        }
+        //console.log(socialNetworks);
+
         this.formSettings.patchValue({
           business_name: this.tenant.business_name,
           phone: this.tenant.tel,
+          country: this.tenant.country,
+          address: this.tenant.address,
+          facebook: socialNetworks.facebook ?? '',
+          instagram: socialNetworks.instagram ?? '',
+          tiktok: socialNetworks.tiktok ?? '',
+          twitter: socialNetworks.twitter ?? '',
         });
       }
     });
+  }
+
+  get tenantForm() {
+    const formValues = this.formSettings.value;
+
+    const formData = new FormData();
+
+    // Si existe business_name, se agrega al FormData
+    if (formValues.business_name)
+      formData.append('business_name', formValues.business_name);
+    if (formValues.address) formData.append('address', formValues.address);
+    if (formValues.image) formData.append('logo', formValues.image);
+    if (formValues.phone) formData.append('tel', formValues.phone);
+
+    // Crear el JSON de redes sociales solo si tiene valores
+    const socialNetworks: any = {};
+    if (formValues.facebook) socialNetworks['facebook'] = formValues.facebook;
+    if (formValues.instagram)
+      socialNetworks['instagram'] = formValues.instagram;
+    if (formValues.tiktok) socialNetworks['tiktok'] = formValues.tiktok;
+    if (formValues.twitter) socialNetworks['twitter'] = formValues.twitter;
+
+    // Si el objeto de redes sociales tiene valores, se convierte a JSON y se agrega al FormData
+    if (Object.keys(socialNetworks).length > 0) {
+      formData.append('social_networks', JSON.stringify(socialNetworks));
+    }
+
+    return formData;
+  }
+
+  saveSettings() {
+    // console.log(this.formSettings.value);
+
+    if (!this.formSettings.valid) return;
+
+    this.tenantService
+      .updateTenant(this.tenantForm, this.tenant.id)
+      .subscribe((result) => {
+        this.messageService.add({
+          severity: 'info',
+          summary: '',
+          detail: 'Guardado Correctamente',
+        });
+      });
   }
 
   //Metodo para verificar que no se repita el nombre de negocio
@@ -87,6 +173,7 @@ export class BusinessSettingsComponent implements OnInit, AfterViewInit {
         this.repeat = true;
         return;
       }
+
       this.formSettings.patchValue({
         noRepeat: true,
       });
@@ -119,6 +206,16 @@ export class BusinessSettingsComponent implements OnInit, AfterViewInit {
           country: countryData,
         });
       });
+
+      setTimeout(() => {
+        const countryList = document.querySelector(
+          '.iti__country-list'
+        ) as HTMLElement;
+        if (countryList) {
+          countryList.style.backgroundColor = 'black';
+          countryList.style.color = '#ccc'
+        }
+      }, 1000);
     }
   }
 

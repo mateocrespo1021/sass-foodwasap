@@ -64,13 +64,12 @@ export class CatalogComponent {
     return this.categoriesService.spinnerState;
   }
 
-  getSearchDevounce(query: string) {
-    
-    // this.productsService.getSearchItems(query).subscribe((products) => {
-    //   if (products.length) {
-    //     this.currentProducts.set(products);
-    //   }
-    // });
+  getSearchDevounce(query: string) { 
+    this.productsService.getSearchItems(query).subscribe((products) => {
+      if (products.length) {
+        this.currentProducts.set(products);
+      }
+    });
   }
 
   ngOnInit(): void {

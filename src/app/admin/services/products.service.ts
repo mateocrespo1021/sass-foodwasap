@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { environments } from '../../../environments/environments';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   BehaviorSubject,
   Observable,
@@ -23,6 +23,11 @@ export class ProductsService {
   //Signal carga tabla productos
   private signalLoading = signal<boolean>(false);
 
+  
+  get token(){
+    return this.authService.tokenSig
+  }
+
   get loading() {
     return this.signalLoading;
   }
@@ -44,8 +49,11 @@ export class ProductsService {
     return this.user$.pipe(
       switchMap((user) => {
         if (user?.user.tenant) {
+          const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
           return this.httpClient.get<Product[]>(
-            `${this.baseUrl}/products/${user.user.tenant.business_name}`
+            `${this.baseUrl}/products/${user.user.tenant.business_name}`,{
+              headers:headers
+            }
           );
         }
         return of([]); // O manejar el caso cuando no hay tenant
@@ -61,12 +69,22 @@ export class ProductsService {
     );
   }
 
-  getSearchItems(businessName:string | null,query: string): Observable<Product[]> {
-    return this.httpClient
-      .get<Product[]>(`${this.baseUrl}/products/search/${businessName}`, {
-        params: { q: query },
+  getSearchItems(query: string): Observable<Product[]> {
+    return this.user$.pipe(
+      switchMap((user) => {
+        if (user?.user.tenant) {
+          const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+          return this.httpClient.get<Product[]>(
+            `${this.baseUrl}/products/search/${user.user.tenant.business_name}`,{
+              params: { q: query },
+              headers:headers
+            }
+          );
+        }
+        return of([]); // O manejar el caso cuando no hay tenant
       })
-      .pipe(catchError((error) => of([])));
+    );
+    
   }
 
   getProductsById(id: string): Observable<Product | undefined> {
@@ -85,10 +103,11 @@ export class ProductsService {
     return this.user$.pipe(
       switchMap((user) => {
         if (user?.user.tenant) {
+          const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
           product.append('id_tenant', user?.user.tenant.id);
           return this.httpClient.post<Product>(
             `${this.baseUrl}/products`,
-            product
+            product , {headers:headers}
           );
         }
         return of(null);
@@ -98,15 +117,17 @@ export class ProductsService {
 
   updateProducts(product: any, id: number): Observable<Product> {
     if (!id) throw Error('Product Id is required');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.httpClient.post<Product>(
       `${this.baseUrl}/products/${id}`,
-      product
+      product , {headers:headers}
     );
   }
 
   deleteProductById(id: string): Observable<boolean> {
     if (!id) throw Error('Product Id is required');
-    return this.httpClient.delete(`${this.baseUrl}/products/${id}`).pipe(
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    return this.httpClient.delete(`${this.baseUrl}/products/${id}` , {headers:headers}).pipe(
       map((resp) => true),
       catchError((error) => of(false))
     );

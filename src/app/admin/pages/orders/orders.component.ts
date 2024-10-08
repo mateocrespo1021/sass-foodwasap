@@ -11,6 +11,7 @@ import { DateformatPipe } from '../../../shared/pipes/dateformat.pipe';
 import { DropdownModule } from 'primeng/dropdown';
 import { ModalShowProductsOrderComponent } from '../../components/modal-show-products-order/modal-show-products-order.component';
 import { SearchComponent } from '../../../shared/components/search/search.component';
+import { ProgressSpinner, ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-orders',
@@ -25,10 +26,10 @@ import { SearchComponent } from '../../../shared/components/search/search.compon
     DropdownModule,
     ModalShowProductsOrderComponent,
     SearchComponent,
+    ProgressSpinnerModule
   ],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrdersComponent {
   private ordersService = inject(OrdersService);
@@ -36,18 +37,19 @@ export class OrdersComponent {
   orders: Order[] = [];
   orderSubscription!: Subscription;
   chargeWhitOutResult:boolean = false
+  loading !: boolean 
  
   placeholder: string = 'Cliente';
 
   ngOnInit(): void {
-    
+    this.loading = true
     this.ordersAll();
-    // this.echoService.listenToEvents();
-    // this.startPolling();
   }
 
   formatOrdersJson(orders: Order[]) {
+    this.loading = false
     this.orders = orders.map((order) => {
+
       if (order.cart) {
         order.cart = JSON.parse(order.cart);
       }
@@ -57,23 +59,19 @@ export class OrdersComponent {
 
   getSearchItem($search: string) {
     // console.log($search);
+    if (!$search) {
+      return
+    }
     this.ordersService.getSearchItems($search).subscribe((orders) => {
-      // console.log(orders);
 
       this.formatOrdersJson(orders);
     });
   }
 
-  ordersAll() {
-   
-    
+  ordersAll() {  
     this.ordersService
       .getOrders()
       .subscribe((orders) => {
-        if (!orders.length) {
-          this.chargeWhitOutResult=true
-          return
-        }
         this.formatOrdersJson(orders)
       });
   }

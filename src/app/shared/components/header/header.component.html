@@ -1,24 +1,25 @@
 <header class="header">
   <div class="header__content">
     <div [routerLink]="'/store/'+businessName" class="header__logo" [ngClass]="darkMode ? 'dark' : ''">
-      <i class="pi pi-shop"></i>
-      <span *ngIf="is768px">Food</span>
+      @if(currentTenant().logo) {
+        <img class="header__logo-business" [src]="baseLogos + currentTenant().logo + '.webp'" alt="logo business">
+      }@else{
+        <i class="pi pi-shop"></i>
+      }
+      <span  *ngIf="is768px && currentTenant()">{{currentTenant().business_name}}</span>
     </div>
     <div class="header__flex">
       <div class="header__direction">
         <i class="pi pi-map-marker"></i>
         <p>
-          <strong>Entrega en 16 minutes</strong>
+          <strong class="header__address" *ngIf="currentTenant().address">{{currentTenant().address}}</strong>
         </p>
       </div>
       <app-search (onDebounce)="getSearchItem($event)" *ngIf="is768px && urlSegments.length > 2"></app-search>
       <app-search-autocomplete *ngIf="is768px && urlSegments.length==2"></app-search-autocomplete>
-      <!-- <div class="header__login">
-        <i class="fa-solid fa-circle-user"></i>
-        <p *ngIf="is768px">Hola, <span> Trabjas aqui? </span></p>
-      </div> -->
     </div>
-    <app-darkmode></app-darkmode>
+    <app-darkmode class="header__darkmode"></app-darkmode>
+    <app-modal-schedule class="header__schedule"/> 
     <div class="header__logo" [ngClass]="darkMode ? 'dark' : ''" (click)="sidebarVisible = true">
       <i class="pi pi-shopping-cart"></i>
       <p>{{ totalItemsCart }} Items <span>${{subTotalSignal()}}</span></p>

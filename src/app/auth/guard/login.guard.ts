@@ -10,7 +10,7 @@ export const loginGuard: CanActivateFn = (route, state) => {
 
   if (!isLocalStorageAvailable) return true
 
-   const admin = authService.checkAuthentication().subscribe((result)=>{
+    authService.checkAuthentication().subscribe((result)=>{
     if (result) {
       if (localStorage.getItem('token') && localStorage.getItem('user')) {
         router.navigateByUrl('/admin/dashboard');

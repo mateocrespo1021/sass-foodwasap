@@ -10,8 +10,8 @@
         <app-search (onDebounce)="getSearchItem($event)" [placeholder]="placeholder"></app-search>
     </div>
     <div class="card">
-        @if(orders.length){
-        <p-table [value]="orders" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="10">
+        
+        <p-table [value]="orders"  [loading]="loading" [tableStyle]="{ 'min-width': '50rem' }" [paginator]="true" [rows]="10">
             <ng-template pTemplate="header">
                 <tr>
                     <th>Cliente</th>
@@ -39,12 +39,10 @@
                 </tr>
             </ng-template>
         </p-table>
-        }
-
-        <div class="message" *ngIf="chargeWhitOutResult">
-            <p-button label="No Hay Resultados" [outlined]="true" severity="secondary" />
-        </div>
-
-
+        
+            <!-- <div class="message">
+            <p-button [label]="loading ? 'Cargando' :  'No Hay Pedidos'" [outlined]="true" severity="secondary" />
+        </div> -->
+            
     </div>
 </div>

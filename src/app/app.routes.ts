@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './auth/guard/auth.guard';
 import { loginGuard } from './auth/guard/login.guard';
+import { subscriptionGuard } from './shared/guards/subscription.guard';
 
 export const routes: Routes = [
   {
@@ -27,7 +28,7 @@ export const routes: Routes = [
       import('./admin/pages/dashboard/dashboard.component').then(
         (c) => c.DashboardComponent
       ),
-    canActivate: [authGuard],
+    canActivate: [authGuard , subscriptionGuard],
   },
   {
     path: 'admin/catalog',
@@ -35,7 +36,7 @@ export const routes: Routes = [
       import('./admin/pages/catalog/catalog.component').then(
         (c) => c.CatalogComponent
       ),
-    canActivate: [authGuard],
+    canActivate: [authGuard,subscriptionGuard],
   },
   {
     path: 'admin/sliders',
@@ -43,7 +44,7 @@ export const routes: Routes = [
       import('./admin/pages/sliders-management/sliders-management.component').then(
         (c) => c.SlidersManagementComponent
       ),
-    canActivate: [authGuard],
+    canActivate: [authGuard,subscriptionGuard],
   },
   {
     path: 'admin/orders',
@@ -51,13 +52,29 @@ export const routes: Routes = [
       import('./admin/pages/orders/orders.component').then(
         (c) => c.OrdersComponent
       ),
-    canActivate: [authGuard],
+    canActivate: [authGuard,subscriptionGuard],
   },
   {
     path: 'admin/business-settings',
     loadComponent: () =>
       import('./admin/pages/business-settings/business-settings.component').then(
         (c) => c.BusinessSettingsComponent
+      ),
+    canActivate: [authGuard,subscriptionGuard],
+  },
+  {
+    path: 'admin/schedules',
+    loadComponent: () =>
+      import('./admin/pages/schedule/schedule.component').then(
+        (c) => c.ScheduleComponent
+      ),
+    canActivate: [authGuard,subscriptionGuard],
+  },
+  {
+    path: 'admin/plan',
+    loadComponent: () =>
+      import('./admin/pages/plan/plan.component').then(
+        (c) => c.PlanComponent
       ),
     canActivate: [authGuard],
   },
@@ -75,7 +92,7 @@ export const routes: Routes = [
       import('./auth/pages/login-tenant/login-tenant.component').then(
         (c) => c.LoginTenantComponent
       ),
-    canActivate: [loginGuard],
+    canActivate: [],
   },
   {
     path: 'tenant/register',

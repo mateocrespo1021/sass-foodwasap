@@ -1,0 +1,36 @@
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.schedule-table th,
+.schedule-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.schedule-table th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.schedule-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.schedule-table tr:hover {
+  background-color: #ddd;
+}
+
+.status.open {
+  color: green;
+  font-weight: bold;
+}
+
+.status.closed {
+  color: red;
+  font-weight: bold;
+}

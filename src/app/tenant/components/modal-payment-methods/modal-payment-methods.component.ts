@@ -25,14 +25,15 @@ declare var paypal: any;
   styleUrl: './modal-payment-methods.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class ModalPaymentMethodsComponent implements OnInit {
-  private planService = inject(PlanService);
+//  private planService = inject(PlanService);
   private tenantService = inject(TenantService);
   private authService = inject(AuthService);
 
-  get currentTenant() {
-    return this.tenantService.getCurrentTenant();
-  }
+  // get currentTenant() {
+  //   return this.tenantService.getCurrentTenant();
+  // }
 
   @ViewChild('paypal', { static: true }) paypalElement?: ElementRef;
   //El plan quee escogio
@@ -46,27 +47,27 @@ export class ModalPaymentMethodsComponent implements OnInit {
     } else {
       this.authService.getUserAuth().subscribe((result) => {
         if (result) {
-          const tenant = this.tenantFinal;
-          tenant.id_user = result;
-          //Guardar el tenant
-          this.tenantService.addTenant(tenant).subscribe((tenant)=>{
-            console.log(tenant);
+          // const tenant = this.tenantFinal;
+          // tenant.id_user = result;
+          // //Guardar el tenant
+          // this.tenantService.addTenant(tenant).subscribe((tenant)=>{
+          //   console.log(tenant);
             
-          })
+          // })
         }
       });
     }
   }
 
-  get tenantFinal(): Tenant {
-    return {
-      business_name: this.currentTenant()?.business_name,
-      country: this.currentTenant()?.country,
-      tel: this.currentTenant()?.tel,
-      terms_accepted: this.currentTenant()?.terms_accepted,
-      id_plan: this.plan.id,
-    };
-  }
+  // get tenantFinal(): Tenant {
+  //   return {
+  //     business_name: this.currentTenant()?.business_name,
+  //     country: this.currentTenant()?.country,
+  //     tel: this.currentTenant()?.tel,
+  //     terms_accepted: this.currentTenant()?.terms_accepted,
+  //     // id_plan: this.plan.id,
+  //   };
+  // }
 
   ngOnInit(): void {}
 
@@ -97,16 +98,14 @@ export class ModalPaymentMethodsComponent implements OnInit {
            //Pago Realizado correctamente
            this.authService.getUserAuth().subscribe((result) => {
             if (result.user) {
-               const tenant = this.tenantFinal;
-              tenant.id_user = result.user.id;
-              //Guardar el tenant
-              this.tenantService.addTenant(tenant).subscribe((tenant)=>{
-                console.log(tenant);
+              // const tenant = this.tenantFinal;
+              // tenant.id_user = result.user.id;
+              // //Guardar el tenant
+              // this.tenantService.addTenant(tenant).subscribe((tenant)=>{
+              //   console.log(tenant);
                 
-              })
-              
+              // }) 
             }
-            
             // if (result) {
             //   const tenant = this.tenantFinal;
             //   tenant.id_user = result;
@@ -128,3 +127,4 @@ export class ModalPaymentMethodsComponent implements OnInit {
     }
   }
 }
+

@@ -11,4 +11,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './aside-register.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AsideRegisterComponent { }
+export class AsideRegisterComponent { 
+  
+}

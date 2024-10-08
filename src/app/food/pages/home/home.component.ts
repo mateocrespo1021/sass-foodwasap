@@ -39,16 +39,13 @@ export class HomeComponent implements OnInit {
   businessName!: string | null;
   color: string = 'red';
   secondColor : string = '#ffc107'
-  
-  
+
   get darkMode(){
     return this.themeService.signalModeDark()
   }
   get modal() {
     return this.modalProduct.modalSignal;
   }
-
-
 
   ngOnInit(): void {
      // Capturar el parámetro 'businessName' desde la ruta

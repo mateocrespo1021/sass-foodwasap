@@ -4,15 +4,12 @@
             icon="pi pi-plus" />
         <p-button [label]="direction()" [text]="true" />
     </div>
-
     <div class="field">
         <input id="name" type="text" pInputText formControlName="name" placeholder="Su Nombre" />
     </div>
     <div class="field">
-        <p-inputMask 
-        mask="(999) 999-9999" 
-        formControlName="tel" 
-        placeholder="Su Telefono" ariaLabelledBy="phone" size="34"/>
+        <label for="phone">Número Telefonico (Seleccione su país)</label>
+        <input #phoneInput class="input-phone" type="text" id="phone" formControlName="phone">
     </div>
     <div class="field">
         <label for="delevery">Opciones de Entrega</label>

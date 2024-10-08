@@ -22,18 +22,17 @@ import { Plan } from '../../../shared/interfaces/plan.interface';
 })
 export class PlansPaypalComponent implements OnInit {
   private planService = inject(PlanService);
- 
   plans!: Plan[];
   ngOnInit(): void {
     this.planService.getPlans().subscribe((plans) => {
+      console.log(plans);
+      
       this.plans = plans.map((plan) => {
         if (plan.features) {
           plan.features = plan.features.toString().split(',');
         }
         return plan;
       });
-    });
-
-  
+    });  
   }
 }

@@ -21,6 +21,8 @@ export class LayoutService {
           '/admin/orders',
           '/admin/business-settings',
           '/admin/product-management',
+          '/admin/schedules',
+          '/admin/plan'
         ];
         const promoRoutes = ['/promotion'];
 

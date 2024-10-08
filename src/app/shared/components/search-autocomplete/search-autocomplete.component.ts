@@ -10,6 +10,8 @@ import { environments } from '../../../../environments/environments';
 import { ModalProductService } from '../../../food/services/modal-product.service';
 import { TenantBusinessService } from '../../services/tenant-business.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ProductsClientService } from '../../../admin/services/products-client.service';
+import { Product } from '../../../admin/interfaces/product.interface';
 
 @Component({
   selector: 'app-search-autocomplete',
@@ -20,7 +22,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class SearchAutocompleteComponent implements OnInit{
   
-  private productsService = inject(ProductsService);
+  private productsClientService = inject(ProductsClientService);
   private modalProduct = inject(ModalProductService);
   public baseProducts = environments.baseProducts;
   public is768px : boolean = false
@@ -51,7 +53,7 @@ export class SearchAutocompleteComponent implements OnInit{
    
   }
   search(event: AutoCompleteCompleteEvent) {
-    this.productsService.getSearchItems(this.businessName,event.query).subscribe((products) => {
+    this.productsClientService.getSearchItems(this.businessName,event.query).subscribe((products) => {
       this.filteredProducts = products;
       // this.suggestions = [...Array(10).keys()].map(item => event.query + '-' + item);
     });
@@ -74,10 +76,8 @@ export class SearchAutocompleteComponent implements OnInit{
     return this.modalProduct.productSignal;
   }
 
-  showModal(id: number) {
-    this.productsService.getProductsById(id + '').subscribe((product) => {
-      this.currentProduct.set(product!);
+  showModal(product:Product) {
+    this.currentProduct.set(product);
       this.modal.set(true);
-    });
   }
 }

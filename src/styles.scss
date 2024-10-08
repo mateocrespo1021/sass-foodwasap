@@ -78,11 +78,11 @@ ul {
     font-size: 14px;
 }
 
-[class$="__contenedor"] {
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 90%;
-}
+// [class$="__contenedor"] {
+//   max-width: 1200px;
+//   margin: 0 auto;
+//   width: 90%;
+// }
 
 [class$="__heading"] {
   text-align: center;
@@ -93,6 +93,10 @@ ul {
     max-width: 1200px;
     margin: 0 auto;
     width: 95%;
+
+    @media(min-width: 950px){
+      width: 100%;
+    }
 }
 
 

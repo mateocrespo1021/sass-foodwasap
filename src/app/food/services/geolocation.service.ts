@@ -10,12 +10,20 @@ export class GeolocationService {
   getCurrentPosition(): Observable<GeolocationPosition> {
     return new Observable((observer) => {
       if (navigator.geolocation) {
+         // Configuramos las opciones directamente en el servicio
+         const geolocationOptions = {
+          enableHighAccuracy: true, // Usa GPS si es posible para mayor precisión
+          timeout: 10000, // Espera máximo 10 segundos
+          maximumAge: 0, // No usa valores en caché
+        };
+
         navigator.geolocation.getCurrentPosition(
           (position) => {
             observer.next(position);
             observer.complete();
           },
-          (error) => observer.error(error)
+          (error) => observer.error(error),
+          geolocationOptions // Aquí se pasan las opciones
         );
       } else {
         observer.error(

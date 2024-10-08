@@ -1,0 +1,31 @@
+<div class="container">
+  <h1>Horarios</h1>
+  <form class="form-schedule" [formGroup]="businessHoursForm" (ngSubmit)="onSubmit()">
+    <div class="general-options">
+      <div class="schedule-options" *ngFor="let day of daysOfWeek; let i = index">
+        <label>{{ day }}</label>
+        <div class="schedules">
+          <!-- Campo de hora de apertura -->
+          <p-calendar formControlName="opening_time_{{ i }}" [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true"
+            inputId="templatedisplay">
+            <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+              <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
+            </ng-template>
+          </p-calendar>
+
+          <!-- Campo de hora de cierre -->
+          <p-calendar formControlName="closing_time_{{ i }}" [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true"
+            inputId="templatedisplay">
+            <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
+              <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
+            </ng-template>
+          </p-calendar>
+        </div>
+        <!-- Checkbox de abierto/cerrado -->
+        <input type="checkbox" formControlName="is_open_{{ i }}" /> Abierto
+      </div>
+    </div>
+    <p-button label="Guardar Horarios" icon="pi pi-check" type="submit"></p-button>
+  </form>
+</div>
+<p-toast></p-toast>

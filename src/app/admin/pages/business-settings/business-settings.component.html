@@ -1,32 +1,74 @@
 <div class="container">
-<h1>Configuración de Cuenta</h1>
-<form action="" class="form" [formGroup]="formSettings">
+  <h1>Configuración de Negocio</h1>
+  <form action="" class="form" [formGroup]="formSettings" (ngSubmit)="saveSettings()">
     <div class="field">
-        <label for="business_name">Nombre del Negocio</label>
-        <input #txtInput id="business_name" type="text" pInputText formControlName="business_name" (blur)="onKeyPress(txtInput.value)"/>
-        <span *ngIf="isValidField('business_name')" class="form-text text-danger">
-            <!-- Debe de ser de 3 letras -->
-            {{getFieldError('business_name')}}
-        </span>
-        <span *ngIf="repeat" class="form-text text-danger">
-            <!-- Debe de ser de 3 letras -->
-            El nombre del negocio ya está ocupado.
-        </span>
+      <label for="business_name">Nombre del Negocio</label>
+      <input #txtInput id="business_name" type="text" pInputText formControlName="business_name"
+        (blur)="onKeyPress(txtInput.value)" />
+      <span *ngIf="isValidField('business_name')" class="form-text text-danger">
+        <!-- Debe de ser de 3 letras -->
+        {{getFieldError('business_name')}}
+      </span>
+      <span *ngIf="repeat" class="form-text text-danger">
+        <!-- Debe de ser de 3 letras -->
+        El nombre del negocio ya está ocupado.
+      </span>
     </div>
     <div class="field">
-        <label for="phone">Número Telefonico (Seleccione su país)</label>
-        <input #phoneInput class="input-phone" type="text" id="phone" formControlName="phone">
-        <span *ngIf="isValidField('phone')" class="form-text text-danger">
-            <!-- Debe de ser de 3 letras -->
-            {{getFieldError('phone')}}
-        </span>
+      <label for="address">Dirección del Negocio</label>
+      <input id="address" type="text" pInputText formControlName="address" />
+      <span *ngIf="isValidField('address')" class="form-text text-danger">
+        <!-- Debe de ser de 3 letras -->
+        {{getFieldError('address')}}
+      </span>
     </div>
     <div class="field">
-        <label for="image">Logo</label>
-        <app-file class="app-file" (fileUploaded)="handleFileUploaded($event)"></app-file> 
-    </div> 
-    <div class="field">
-        <label for="facebook"></label>
+      <label for="phone">Número Telefonico (Seleccione su país)</label>
+      <input #phoneInput class="input-phone" type="text" id="phone" formControlName="phone">
+      <span *ngIf="isValidField('phone')" class="form-text text-danger">
+        <!-- Debe de ser de 3 letras -->
+        {{getFieldError('phone')}}
+      </span>
     </div>
-</form>
+    <div class="field">
+      <label for="image">Logo</label>
+      <app-file class="app-file" (fileUploaded)="handleFileUploaded($event)"></app-file>
+
+      <img *ngIf="tenant && tenant.logo" [src]="baseLogo + tenant.logo + '.webp'" alt="">
+    </div>
+    <div class="field">
+      <label for="facebook">Facebook</label>
+      <input id="facebook" type="text" pInputText formControlName="facebook" />
+      <span *ngIf="isValidField('facebook')" class="form-text text-danger">
+        <!-- Debe de ser de 3 letras -->
+        {{getFieldError('facebook')}}
+      </span>
+    </div>
+    <div class="field">
+      <label for="instagram">Instagram</label>
+      <input id="instagram" type="text" pInputText formControlName="instagram" />
+      <span *ngIf="isValidField('instagram')" class="form-text text-danger">
+        <!-- Debe de ser de 3 letras -->
+        {{getFieldError('instagram')}}
+      </span>
+    </div>
+    <div class="field">
+      <label for="tiktok">TikTok</label>
+      <input id="tiktok" type="text" pInputText formControlName="tiktok" />
+      <span *ngIf="isValidField('tiktok')" class="form-text text-danger">
+        <!-- Debe de ser de 3 letras -->
+        {{getFieldError('tiktok')}}
+      </span>
+    </div>
+    <div class="field">
+      <label for="twitter">Twitter</label>
+      <input id="twitter" type="text" pInputText formControlName="twitter" />
+      <span *ngIf="isValidField('twitter')" class="form-text text-danger">
+        <!-- Debe de ser de 3 letras -->
+        {{getFieldError('twitter')}}
+      </span>
+    </div>
+    <p-button type="submit" severity="success" class="mb-3" label="Guardar" icon="pi pi-check" />
+  </form>
 </div>
+<p-toast />

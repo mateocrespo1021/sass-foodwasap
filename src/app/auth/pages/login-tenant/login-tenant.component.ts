@@ -11,7 +11,6 @@ import {
   FormGroup,
   ReactiveFormsModule,
   Validators,
-  
 } from '@angular/forms';
 import { ValidatorService } from '../../../shared/services/validator.service';
 import { ToastModule } from 'primeng/toast';
@@ -39,18 +38,18 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     InputTextModule,
     PasswordModule,
     AsideLoginComponent,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
   ],
   templateUrl: './login-tenant.component.html',
   styleUrl: './login-tenant.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginTenantComponent implements OnInit {
   fb = inject(FormBuilder);
   validatorService = inject(ValidatorService);
   messageService = inject(MessageService);
-  cdr = inject(ChangeDetectorRef);
+
   authService = inject(AuthService);
+
   route = inject(ActivatedRoute);
   router = inject(Router);
   formLogin!: FormGroup;
@@ -59,8 +58,57 @@ export class LoginTenantComponent implements OnInit {
   passwordType: string = 'password';
   confirmPasswordType: string = 'password';
   loadingSpinner: boolean = false;
+  token: string | any = null;
+
+  initializeGoogleSignIn() {
+    window['google'].accounts.id.initialize({
+      client_id:
+        '1061570549242-b9179hiso5eu6ijj7ru6p5dfrkjsget9.apps.googleusercontent.com', // Tu client_id
+      callback: (response: any) => this.handleOauthResponse(response),
+      context: 'signin',
+      ux_mode: 'popup',
+      itp_support: true,
+    });
+
+    // Renderizar el botón de inicio de sesión
+    window['google'].accounts.id.renderButton(
+      document.getElementById('google-signin-btn'),
+      {
+        theme: 'outline',
+        size: 'large',
+        text: 'signin_with',
+        shape: 'rectangular',
+        logo_alignment: 'left',
+      }
+    );
+  }
+
+  //Inicio sesion google , pasarle el token a la api
+  handleOauthResponse(response: any) {
+    if (response.credential) {
+      console.log(response.credential);
+      this.authService
+      .loginGoogle(
+        response.credential
+      )
+      .subscribe((result) => {
+        this.loadingSpinner = false;
+        if (!result.has_tenant) {
+          this.router.navigateByUrl('info-tenant');
+          return;
+        }
+        this.router.navigateByUrl('admin/dashboard');
+      });
+    }
+  }
+
+  decodeJWTToken(token: string) {
+    return JSON.parse(atob(token.split('.')[1]));
+  }
 
   ngOnInit(): void {
+   
+    this.initializeGoogleSignIn();
     //Obtengo las variable UID de verificacion
     this.route.queryParamMap.subscribe((params) => {
       this.code = params.get('code');
@@ -71,7 +119,6 @@ export class LoginTenantComponent implements OnInit {
         this.authService.verifiedEmailAuth(data).subscribe({
           next: (response) => {
             this.showMessageVerified = true;
-            this.cdr.markForCheck();
           },
           error: (err) => {
             //console.error(err);
@@ -104,7 +151,7 @@ export class LoginTenantComponent implements OnInit {
       return;
     }
 
-    this.loadingSpinner = true
+    this.loadingSpinner = true;
     this.authService
       .login(
         this.formLogin.get('email')?.value,
@@ -112,13 +159,13 @@ export class LoginTenantComponent implements OnInit {
       )
       .subscribe((result) => {
         //console.log(result);
-        this.loadingSpinner = false
+        this.loadingSpinner = false;
         if (!result.has_tenant) {
           this.router.navigateByUrl('info-tenant');
           return;
         }
 
-        this.router.navigateByUrl('admin/dashboard')
+        this.router.navigateByUrl('admin/dashboard');
       });
   }
 

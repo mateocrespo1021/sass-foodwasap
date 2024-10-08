@@ -20,13 +20,9 @@ export class SelectPlanTenantComponent implements OnInit{
   router = inject(Router)
   private tenantService = inject(TenantService)
 
-  get currentTenant(){
-  return this.tenantService.getCurrentTenant()
-  }
+ 
   ngOnInit(): void {
-    if (this.currentTenant() == null) {
-      this.router.navigateByUrl("/info-tenant")
-    }
+    
   }
 
  }

@@ -17,7 +17,7 @@ export class PlanService {
     return this.httpClient.get<Plan[]>(`${this.baseUrl}/plans`);
   }
 
-  getTenantById(id: string): Observable<Plan | undefined> {
+  getPlanById(id: string | number): Observable<Plan | undefined> {
     return this.httpClient
       .get<Plan>(`${this.baseUrl}/plans/${id}`)
       .pipe(catchError((error) => of(undefined)));

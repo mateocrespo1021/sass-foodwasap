@@ -27,6 +27,8 @@ import { DarkmodeComponent } from '../darkmode/darkmode.component';
 import { ThemeService } from '../../services/theme.service';
 import { TenantBusinessService } from '../../services/tenant-business.service';
 import { ProductsClientService } from '../../../admin/services/products-client.service';
+import { TenantService } from '../../../admin/services/tenant.service';
+import { ModalScheduleComponent } from '../modal-schedule/modal-schedule.component';
 
 @Component({
   selector: 'app-header',
@@ -41,6 +43,7 @@ import { ProductsClientService } from '../../../admin/services/products-client.s
     DetailsOrderComponent,
     DarkmodeComponent,
     RouterModule,
+    ModalScheduleComponent
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
@@ -52,13 +55,15 @@ export class HeaderComponent implements OnInit {
   currentUrl!: string;
 
   public baseProducts: string = environments.baseProducts;
+  public baseLogos : string = environments.baseLogos
+
   private cartService = inject(CartService);
-  private productsClientService = inject(ProductsClientService);
-private productsService = inject(ProductsService)  
+  private productsClientService = inject(ProductsClientService); 
   private productExplorer = inject(ProductExplorerService);
   private themeService = inject(ThemeService);
   private router = inject(Router);
   private tenantBusinessService = inject(TenantBusinessService)
+  private tenantService = inject(TenantService)
   urlSegments!: string[];
 
   public sendMessage: boolean = false;
@@ -70,13 +75,16 @@ private productsService = inject(ProductsService)
     return this.tenantBusinessService.businessSignal
   }
 
+  get currentTenant(){
+    return this.tenantService.currentTenant
+  }
+
+
   constructor() {
     this.currentUrl = this.router.url;
   }
 
   ngOnInit(): void {
-   
-    this.cartService.calcSubtotal();
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.updateUrl(event.urlAfterRedirects || event.url);
@@ -85,6 +93,14 @@ private productsService = inject(ProductsService)
 
     this.updateUrl(this.currentUrl)
     this.checkWidth();
+    this.chargeInfoTenant()
+  }
+
+  //Carga a info del tenant
+  private chargeInfoTenant(){
+   this.tenantService.getTenantByName(this.businessSignal()).subscribe((tenant)=>{
+    this.currentTenant.set(tenant)
+   }) 
   }
 
   private updateUrl(url: string): void {
@@ -131,6 +147,7 @@ private productsService = inject(ProductsService)
 
   //Carrito de compras
   get currentCart() {
+   // console.log(this.currentCart());
     return this.cartService.cartSignal;
   }
 

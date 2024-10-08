@@ -4,6 +4,13 @@
   gap: 10x;
 }
 
+.input-phone{
+  width: 100%;
+  border-radius: .8rem;
+  padding: .8rem;
+  border: 1px solid #ccc;
+}
+
 
 .field{
 display: flex;
@@ -24,5 +31,10 @@ label{
 }
 
 .app-file{
-  display: flex;
+ display: flex;
+}
+
+
+img{
+  width: 100px;
 }

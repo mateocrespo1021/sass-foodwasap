@@ -1,10 +1,14 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
+  Inject,
   OnInit,
   Output,
+  PLATFORM_ID,
   inject,
   signal,
 } from '@angular/core';
@@ -29,7 +33,11 @@ import { OrdersService } from '../../../food/services/orders.service';
 import { Order } from '../../../food/interfaces/order.interface';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { TenantBusinessService } from '../../services/tenant-business.service';
+import { ViewChild } from '@angular/core';
+import { TenantService } from '../../../admin/services/tenant.service';
 
+
+declare var intlTelInput: any;
 @Component({
   selector: 'app-details-order',
   standalone: true,
@@ -47,7 +55,7 @@ import { TenantBusinessService } from '../../services/tenant-business.service';
   styleUrl: './details-order.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DetailsOrderComponent{
+export class DetailsOrderComponent implements AfterViewInit{
   
   private fb = inject(FormBuilder);
   private geolocationService = inject(GeolocationService);
@@ -56,6 +64,52 @@ export class DetailsOrderComponent{
   private ordersService = inject(OrdersService)
   private activatedRoute = inject(ActivatedRoute)
   private tenantBusinessService = inject(TenantBusinessService)
+  private tenantService = inject(TenantService)
+  private iti: any;
+  private isBrowser: boolean;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
+
+  @ViewChild('phoneInput', { static: false }) phoneInput!: ElementRef;
+
+  get currentTenant(){
+    return this.tenantService.currentTenant()
+  }
+
+
+  ngAfterViewInit(): void {
+    const country = JSON.parse(this.currentTenant.country)
+    //Inicializa el numero de telefono
+    if (this.isBrowser) {
+      const input = this.phoneInput.nativeElement;
+      this.iti = intlTelInput(input, {
+        initialCountry: country.iso2, // Aquí usamos el país almacenado
+        utilsScript:
+          'https://cdn.jsdelivr.net/npm/intl-tel-input@23.8.0/build/js/utils.js',
+      });
+
+      input.addEventListener('change', () => {
+        const fullNumber = this.iti.getNumber();
+        const countryData = this.iti.getSelectedCountryData();
+        this.formDetails.patchValue({
+          phone: fullNumber,
+          country: countryData,
+        });
+      });
+
+      setTimeout(() => {
+        const countryList = document.querySelector(
+          '.iti__country-list'
+        ) as HTMLElement;
+        if (countryList) {
+          countryList.style.backgroundColor = 'black';
+          countryList.style.color = '#ccc'
+        }
+      }, 1000);
+    }
+  }
 
   get businessSignal(){
     return this.tenantBusinessService.businessSignal
@@ -86,7 +140,8 @@ export class DetailsOrderComponent{
     pay: ['', Validators.required],
     direction: ['', Validators.required],
     note: [''],
-    tel:['' , Validators.required]
+    phone:['' , Validators.required],
+    country : ['' , Validators.required]
   });
 
   get currentCart() {
@@ -132,9 +187,15 @@ export class DetailsOrderComponent{
     return order
   }
 
+
+
+
  
 
   sendMessage() {
+    console.log(this.formDetails.value);
+    return
+    
     if (!this.formDetails.valid) {
       this.messageService.add({
         severity: 'error',

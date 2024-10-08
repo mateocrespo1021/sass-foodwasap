@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environments } from '../../../environments/environments';
 import { Slider } from '../interfaces/slider.interface';
@@ -23,6 +23,10 @@ export class SlidersService {
 
   private sliders = signal<Slider[]>([]);
 
+  get token() {
+    return this.authService.tokenSig;
+  }
+
   constructor(
     private httpClient: HttpClient,
     private authService: AuthService
@@ -38,8 +42,9 @@ export class SlidersService {
     return this.user$.pipe(
       switchMap((user) => {
         if (user?.user.tenant) {
+          const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
           return this.httpClient.get<Slider[]>(
-            `${this.baseUrl}/sliders/${user.user.tenant.business_name}`
+            `${this.baseUrl}/sliders/${user.user.tenant.business_name}` , {headers:headers}
           );
         }
         return of([]); // O manejar el caso cuando no hay tenant
@@ -47,10 +52,10 @@ export class SlidersService {
     );
   }
 
-
   getSliderById(id: string): Observable<Slider | undefined> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.httpClient
-      .get<Slider>(`${this.baseUrl}/sliders/${id}`)
+      .get<Slider>(`${this.baseUrl}/sliders/${id}` , {headers:headers})
       .pipe(catchError((error) => of(undefined)));
   }
 
@@ -58,11 +63,12 @@ export class SlidersService {
     return this.user$.pipe(
       switchMap((user) => {
         if (user?.user.tenant) {
-          return this.httpClient
+          const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);          return this.httpClient
             .get<Slider[]>(
               `${this.baseUrl}/sliders/search/${user.user.tenant.business_name}`,
               {
                 params: { q: query },
+                headers:headers
               }
             )
             .pipe(catchError((error) => of([])));
@@ -73,13 +79,14 @@ export class SlidersService {
   }
 
   addSlider(slider: any): Observable<Slider | null> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.user$.pipe(
       switchMap((user) => {
         if (user?.user.tenant) {
           slider.append('id_tenant', user?.user.tenant.id);
           return this.httpClient.post<Slider>(
             `${this.baseUrl}/sliders`,
-            slider
+            slider, {headers:headers}
           );
         }
         return of(null);
@@ -89,15 +96,17 @@ export class SlidersService {
 
   updateSlider(slider: any, id: number): Observable<Slider> {
     if (!id) throw Error('Slider Id is required');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.httpClient.post<Slider>(
       `${this.baseUrl}/sliders/${id}`,
-      slider
+      slider , {headers:headers}
     );
   }
 
   deleteSliderById(id: number): Observable<boolean> {
     if (!id) throw Error('Slider Id is required');
-    return this.httpClient.delete(`${this.baseUrl}/sliders/${id}`).pipe(
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    return this.httpClient.delete(`${this.baseUrl}/sliders/${id}` , {headers:headers}).pipe(
       map((resp) => true),
       catchError((error) => of(false))
     );

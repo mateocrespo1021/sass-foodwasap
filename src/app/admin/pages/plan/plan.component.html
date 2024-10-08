@@ -1,0 +1,6 @@
+<div *ngIf="subscription" class="subscription">
+    <p>Plan Actual : {{plan?.name}} </p>
+    <span>Estado : {{subscription.status  ? 'Activo' : 'Inactivo'}} </span>
+</div>
+<app-plans-paypal></app-plans-paypal>
+

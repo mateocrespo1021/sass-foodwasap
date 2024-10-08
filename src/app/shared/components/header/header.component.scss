@@ -1,6 +1,18 @@
 .header {
   width: 100%;
 
+  &__address {
+    font-size: 13px;
+  }
+
+  &__schedule{
+    align-self: inherit;
+  }
+
+  &__darkmode{
+    align-self: inherit;
+  }
+
   &__content {
     width: 100%;
     display: flex;
@@ -8,20 +20,17 @@
     align-items: center;
     gap: 20px;
     height: 70px;
-
-
   }
 
   &__flex {
     flex: 1;
     display: flex;
-   
+
     align-items: center;
     padding: 10px 0;
 
     @media (min-width: 768px) {
       gap: 20px;
-      
     }
   }
 
@@ -42,47 +51,53 @@
     }
   }
 
+  &__logo-business {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+
   &__logo {
     display: block;
-    &.dark{
+
+    &.dark {
       background-color: black;
 
-      span{
+      span {
         color: white;
       }
 
-      p{
+      p {
         color: white;
       }
     }
+
     background-color: var(--gray);
     padding: 20px;
     font-size: 25px;
     color: #fe3000;
     cursor: pointer;
 
-   
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    i {
+      font-size: 25px;
+    }
+
+    p {
+      font-size: 15px;
+      color: black;
       display: flex;
-      align-items: center;
-      gap: 10px;
+      flex-direction: column;
+    }
 
-      i {
-        font-size: 25px;
-      }
-
-      p {
-        font-size: 15px;
-        color: black;
-        display: flex;
-        flex-direction: column;
-       
-      }
-
-      span {
-        font-weight: bold;
-        color: black;
-      }
-    
+    span {
+      font-weight: bold;
+      color: black;
+      font-size: 18px;
+    }
 
     i:hover {
       transform: scale(1.1);
@@ -93,8 +108,6 @@
   &__login {
     font-size: 30px;
     color: #fe3000;
-
-
 
     @media (min-width: 768px) {
       display: flex;
@@ -119,14 +132,14 @@
   width: 600px;
 }
 
-.content-sidebar{
+.content-sidebar {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.carts{
+.carts {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -162,7 +175,6 @@
       flex-direction: column;
       gap: 10px;
     }
-
   }
 
   .cart-edit {
@@ -174,16 +186,13 @@
   }
 }
 
-.amount{
+.amount {
   display: flex;
   gap: 10px;
-   align-items: center;
-  p{
+  align-items: center;
+
+  p {
     font-size: 18px;
     font-weight: bold;
   }
-}
-
-.total{
-  
 }

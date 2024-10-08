@@ -5,17 +5,12 @@
             <div class="text-900 text-3xl font-medium mb-3">
                 Bienvenido a WhatsMeal
             </div>
+             <!-- Contenedor para el botón de Google -->
+
+             <div id="google-signin-btn"></div>
+             
             <span class="text-600 font-medium line-height-3">No tienes una cuenta? Registrate</span>
-            <div class="google-center">
-                <p>O</p>
-                <div id="g_id_onload"
-                    data-client_id="798164667034-ce65cqdt8h4ebbc1i6e09f9m65qdvapq.apps.googleusercontent.com"
-                    data-context="use" data-ux_mode="popup"
-                    data-login_uri="https://127.0.0.1:8000/api/auth/login-google" data-auto_select="true"
-                    data-itp_support="true"></div>
-                <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="filled_black"
-                    data-text="signin_with" data-size="large" data-logo_alignment="left"></div>
-            </div>
+
         </div>
         <div class="message-email" *ngIf="showMessageVerified">
             <p-button class="btn-center" label="Email verificado correctamente , inicie sesión" [rounded]="true"
@@ -45,9 +40,12 @@
             <div *ngIf="loadingSpinner" class="card flex justify-content-center">
                 <p-progressSpinner ariaLabel="loading" />
             </div>
-            <button [disabled]="loadingSpinner ? true : false" type="submit" pButton pRipple label="Iniciar Sesión" icon="pi pi-user"
-                class="w-full mb-3 mt-3 p-4"></button>
+            <button [disabled]="loadingSpinner ? true : false" type="submit" pButton pRipple label="Iniciar Sesión"
+                icon="pi pi-user" class="w-full mb-3 mt-3 p-4"></button>
         </form>
     </div>
     <app-aside-login class="aside-login"></app-aside-login>
 </div>
+
+
+ 

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit, inject, signal } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { ModalProductService } from '../../services/modal-product.service';
@@ -22,6 +22,8 @@ import { CartItem } from '../../interfaces/cart-item.interface';
 import { AmountCartComponent } from '../../../shared/components/amount-cart/amount-cart.component';
 import { AmountAdditionalComponent } from '../amount-additional/amount-additional.component';
 import { HelpersService } from '../../../shared/services/helpers.service';
+import { TenantBusinessService } from '../../../shared/services/tenant-business.service';
+import { TenantService } from '../../../admin/services/tenant.service';
 
 @Component({
   selector: 'app-modal-cart-product',
@@ -43,18 +45,21 @@ import { HelpersService } from '../../../shared/services/helpers.service';
   templateUrl: './modal-cart-product.component.html',
   styleUrl: './modal-cart-product.component.scss',
 })
-export class ModalCartProductComponent implements OnInit {
+export class ModalCartProductComponent implements OnInit , AfterViewInit {
+ 
   private modalProduct = inject(ModalProductService);
   private variantsService = inject(VariantsService);
   private additionalsService = inject(AdditionalsService);
   private cartService = inject(CartService);
   private messageService = inject(MessageService);
   private helpersService = inject(HelpersService)
+  private tenantService = inject(TenantService)
   public cost = signal<number>(0);
   public costVariant = signal<number>(0);
   public costAdditional = signal<number>(0);
   valueAmount: number = 1;
   public baseProducts = environments.baseProducts;
+  public isOpen = false;
 
   is768px: boolean = false;
 
@@ -73,6 +78,10 @@ export class ModalCartProductComponent implements OnInit {
 
   calcPriceFinal(price:number,iva:number):string{
     return this.helpersService.calcPriceFinal(price,iva).toFixed(2)
+  }
+
+  get currentTenant(){
+    return this.tenantService.currentTenant()
   }
 
   public checkWidth() {
@@ -102,6 +111,8 @@ export class ModalCartProductComponent implements OnInit {
   }
 
   ngOnInit() {
+    
+    
     this.checkWidth();
     this.cost.set(this.currentProduct().price);
     this.variantsService
@@ -117,6 +128,13 @@ export class ModalCartProductComponent implements OnInit {
       .subscribe((addtionals) => {
         this.additionals = addtionals;
       });
+  }
+
+  ngAfterViewInit(): void {
+    //Verifico si ya esta cerrado el negocio
+    this.isOpen = this.helpersService.isBusinessOpen(JSON.parse(this.currentTenant.schedule))
+    console.log(this.isOpen);
+    
   }
 
   //Suma y min de cantidad de producto
@@ -181,7 +199,6 @@ export class ModalCartProductComponent implements OnInit {
       totalCv: totalCv,
       amount: this.valueAmount,
     } as CartItem;
-
     return cartItem;
   }
 

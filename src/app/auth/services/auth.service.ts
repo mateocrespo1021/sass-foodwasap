@@ -1,11 +1,11 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { Login } from '../interfaces/login.interface';
 import { Register } from '../interfaces/register.interface';
 import { environments } from '../../../environments/environments';
-import { Me } from '../interfaces/me.interface';
+import { Me, TenantMe } from '../interfaces/me.interface';
 import { User } from '../interfaces/user.interface';
 
 @Injectable({
@@ -15,6 +15,12 @@ export class AuthService {
   private baseUrl = environments.baseUrl;
   private isLocalStorageAvailable = typeof localStorage !== 'undefined';
   private token: string | null = null;
+  private tokenSignal = signal<string | null>('')
+
+  get tokenSig(){
+    return this.tokenSignal()
+  }
+
  
   constructor(private http: HttpClient, public router: Router) {
     if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
@@ -24,13 +30,32 @@ export class AuthService {
   
   }
 
+  //El token actual del tenant usuario
   private loadToken(): void {
     this.token = localStorage.getItem('token');
+    this.tokenSignal.set(this.token)
+
+
   }
 
   login(email: string, password: string): Observable<Login> {
     let URL = this.baseUrl + '/auth/login';
     return this.http.post<Login>(URL, { email, password }).pipe(
+      map((resp: Login) => {
+       this.saveLocalStorage(resp);
+       this.loadToken()
+        return resp;
+      }),
+      catchError((err: any) => {
+        // console.log(err);
+        return of(err);
+      })
+    );
+  }
+
+  loginGoogle(token : any){
+    let URL = this.baseUrl + '/auth/login/google';
+    return this.http.post<Login>(URL, { token : token }).pipe(
       map((resp: Login) => {
        this.saveLocalStorage(resp);
        this.loadToken()

@@ -12,13 +12,13 @@ import { DropdownModule } from 'primeng/dropdown';
 import { Tag, TagModule } from 'primeng/tag';
 import { SelectItem } from 'primeng/api';
 import { Product } from '../../../admin/interfaces/product.interface';
-import { ProductsService } from '../../../admin/services/products.service';
 import { ProductExplorerService } from '../../services/product-explorer.service';
 import { environments } from '../../../../environments/environments';
 import { FormsModule } from '@angular/forms';
 import { ModalProductService } from '../../services/modal-product.service';
 import { CartService } from '../../services/cart.service';
 import { LazyImageComponent } from '../../../shared/components/lazy-image/lazy-image.component';
+
 @Component({
   selector: 'app-products-category',
   standalone: true,
@@ -38,7 +38,7 @@ import { LazyImageComponent } from '../../../shared/components/lazy-image/lazy-i
 export class ProductsCategoryComponent {
   private productExplorer = inject(ProductExplorerService);
   private modalProduct = inject(ModalProductService);
-  private productsService = inject(ProductsService);
+  //private productsClientService = inject(ProductsClientService);
   private cartsService = inject(CartService);
 
   public baseProducts = environments.baseProducts;
@@ -71,11 +71,11 @@ export class ProductsCategoryComponent {
     ];
   }
 
-  showModal(id: number) {
-    this.productsService.getProductsById(id + '').subscribe((product) => {
-      this.currentProduct.set(product!);
+  showModal(product: Product) {
+    
+      this.currentProduct.set(product);
       this.modal.set(true);
-    });
+   
   }
 
   amountProduct(id: number) {

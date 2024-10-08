@@ -21,16 +21,13 @@ import { FooterPromoComponent } from './promotion/components/footer-promo/footer
     FooterComponent,
     HeaderAdminComponent,
     HeaderPromoComponent,
-    FooterPromoComponent
+    FooterPromoComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit{
-  ngOnInit(): void {    
-  }
+export class AppComponent implements OnInit {
+  ngOnInit(): void {}
   loading: boolean = false;
   layoutService = inject(LayoutService);
-
-
 }

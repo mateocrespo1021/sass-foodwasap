@@ -1,17 +1,16 @@
 <section class="welcome container">
   <div class="download" [ngClass]="darkMode ? 'dark' : ''">
     <div class="download__info">
-      <i class="fa-solid fa-house"></i>
+      <i class="fa-solid fa-briefcase"></i> <!-- Cambié el ícono a uno más genérico -->
       <div class="download__help">
-        <h3>Bienvenido a Food</h3>
+        <h3>Bienvenido a Nuestro Catálogo</h3>
         <p>
-          ¡Despierta tus sentidos con nuestros sabores irresistibles!
-          <!-- <span> $50 </span>
-          off on your first order. -->
+          Descubre una amplia variedad de productos y servicios que se ajustan a todas tus necesidades.
         </p>
       </div>
     </div>
-    <button [routerLink]="'/store/product-explorer/'+businessName">Explora Nuestro Menú</button>
+    <button [routerLink]="'/store/product-explorer/'+businessName">Explora Nuestro Catálogo</button>
+    
   </div>
   <!-- <div class="welcome__promotions">
     <app-promotion [color]="darkMode ? secondColor : color"></app-promotion>
@@ -33,7 +32,6 @@
 
 <section class="popular-categories container">
   <h2>Categorias Populares</h2>
-
   <app-popular-categories></app-popular-categories>
 </section>
 

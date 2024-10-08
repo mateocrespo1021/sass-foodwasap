@@ -1,3 +1,6 @@
+import { SocialNetworks, TenantSchedule } from "../../admin/interfaces/tenant.interface";
+
+
 export interface Me {
     user: UserMe;
 }
@@ -18,8 +21,11 @@ export interface TenantMe {
     terms_accepted: number;
     business_name:  string;
     country:        string;
-    id_plan:        number;
     id_user:        number;
     created_at:     null;
     updated_at:     null;
+    social_networks?: SocialNetworks;
+    logo?: string;
+    address?:string;
+    schedule? : TenantSchedule;
 }

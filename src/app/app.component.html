@@ -2,10 +2,9 @@
   <app-header *ngIf="layoutService.isPublicBusinessView"></app-header>
   <app-header-admin *ngIf="layoutService.isAdminView"></app-header-admin>
   <app-header-promo *ngIf="layoutService.isPromoView"></app-header-promo>
-  
   <router-outlet></router-outlet>
 
-  <!-- <app-footer *ngIf="!layoutService.isAdminView && !layoutService.isPromoView"></app-footer> -->
+  <app-footer *ngIf="layoutService.isPublicBusinessView"></app-footer>
 } 
 @loading(minimum 1s) {
   <app-spinner></app-spinner>

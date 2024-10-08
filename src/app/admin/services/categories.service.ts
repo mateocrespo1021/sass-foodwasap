@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { environments } from '../../../environments/environments';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   BehaviorSubject,
   Observable,
@@ -38,6 +38,10 @@ export class CategoriesService {
     return this.spinner;
   }
 
+  get token(){
+    return this.authService.tokenSig
+  }
+
   private userSubject = new BehaviorSubject<Me | null>(null);
   private user$ = this.userSubject.asObservable();
 
@@ -52,8 +56,9 @@ export class CategoriesService {
     return this.user$.pipe(
       switchMap((user) => {
         if (user?.user.tenant) {
+          const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
           return this.httpClient.get<Category[]>(
-            `${this.baseUrl}/categories/${user.user.tenant.business_name}`
+            `${this.baseUrl}/categories/${user.user.tenant.business_name}` , {headers:headers}
           );
         }
         return of([]); // O manejar el caso cuando no hay tenant
@@ -68,8 +73,9 @@ export class CategoriesService {
     return this.user$.pipe(
       switchMap((user) => {
         if (user?.user.tenant) {
+          const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
           return this.httpClient.get<Category>(
-            `${this.baseUrl}/lastcategory/${user.user.tenant.business_name}`
+            `${this.baseUrl}/lastcategory/${user.user.tenant.business_name}` , {headers:headers}
           );
         }
         return of(null);
@@ -87,8 +93,10 @@ export class CategoriesService {
   }
 
   getCategorieById(id: number): Observable<Category | undefined> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+
     return this.httpClient
-      .get<Category>(`${this.baseUrl}/categories-by/${id}`)
+      .get<Category>(`${this.baseUrl}/categories-by/${id}` , {headers:headers})
       .pipe(catchError((error) => of(undefined)));
   }
 
@@ -96,10 +104,11 @@ export class CategoriesService {
     return this.user$.pipe(
       switchMap((user) => {
         if (user?.user.tenant) {
+          const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
           category.append('id_tenant', user?.user.tenant.id);
           return this.httpClient.post<Category>(
             `${this.baseUrl}/categories`,
-            category
+            category , {headers:headers}
           );
         }
         return of(null);
@@ -109,15 +118,17 @@ export class CategoriesService {
 
   updateCategory(category: any, id: number): Observable<Category> {
     if (!id) throw Error('Category Id is required');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     return this.httpClient.post<Category>(
       `${this.baseUrl}/categories/${id}`,
-      category
+      category , {headers:headers}
     );
   }
 
   deleteCategoryById(id: number): Observable<boolean> {
     if (!id) throw Error('Category Id is required');
-    return this.httpClient.delete(`${this.baseUrl}/categories/${id}`).pipe(
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+    return this.httpClient.delete(`${this.baseUrl}/categories/${id}` , {headers:headers}).pipe(
       map((resp) => true),
       catchError((error) => of(false))
     );

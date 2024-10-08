@@ -58,8 +58,10 @@
                     </div>
                 </div>
             </div>
-            <p-button [disabled]="!currentProduct().status" [label]="!currentProduct().status ? 'No disponible' :  'Agregar al Carrito $ ' +
+            <p-button [disabled]="!currentProduct().status || !isOpen" [label]="!currentProduct().status ? 'No disponible' :  'Agregar al Carrito $ ' +
             totalCost" (click)="addCart()"  severity="success" size="large" />
         </div>
     </p-dialog>
 </div>
+
+
